@@ -1,3 +1,3 @@
 [submodule "MagicaVoxel-Importer"]
 	path = MagicaVoxel-Importer
-	url = git@github.com:jamie-pate/MagicaVoxel-Importer.git
+	url = ../MagicaVoxel-Importer.git
