@@ -1,20 +1,22 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://testsm.vox" type="ArrayMesh" id=2]
 [ext_resource path="res://addons/MagicaVoxelImporter/VoxelMesh.gd" type="Script" id=3]
 [ext_resource path="res://testbig.vox" type="ArrayMesh" id=4]
 [ext_resource path="res://testbox.vox" type="ArrayMesh" id=5]
-[ext_resource path="res://magicavoxel-samples/castle.vox" type="ArrayMesh" id=6]
-[ext_resource path="res://magicavoxel-samples/monu9.vox" type="ArrayMesh" id=7]
-[ext_resource path="res://magicavoxel-samples/nature.vox" type="ArrayMesh" id=8]
-[ext_resource path="res://magicavoxel-samples/8x8x8.vox" type="ArrayMesh" id=9]
-[ext_resource path="res://magicavoxel-samples/chr_old.vox" type="ArrayMesh" id=10]
-[ext_resource path="res://magicavoxel-samples/doom.vox" type="ArrayMesh" id=11]
-[ext_resource path="res://magicavoxel-samples/shelf.vox" type="ArrayMesh" id=12]
-[ext_resource path="res://magicavoxel-samples/3x3x3.vox" type="ArrayMesh" id=13]
-[ext_resource path="res://magicavoxel-samples/chr_knight.vox" type="ArrayMesh" id=14]
-[ext_resource path="res://magicavoxel-samples/teapot.vox" type="ArrayMesh" id=15]
+[ext_resource path="res://c2.vox" type="ArrayMesh" id=6]
+[ext_resource path="res://c1.vox" type="ArrayMesh" id=7]
+[ext_resource path="res://magicavoxel-samples/castle.vox" type="ArrayMesh" id=8]
+[ext_resource path="res://magicavoxel-samples/monu9.vox" type="ArrayMesh" id=9]
+[ext_resource path="res://magicavoxel-samples/nature.vox" type="ArrayMesh" id=10]
+[ext_resource path="res://magicavoxel-samples/8x8x8.vox" type="ArrayMesh" id=11]
+[ext_resource path="res://magicavoxel-samples/chr_old.vox" type="ArrayMesh" id=12]
+[ext_resource path="res://magicavoxel-samples/doom.vox" type="ArrayMesh" id=13]
+[ext_resource path="res://magicavoxel-samples/shelf.vox" type="ArrayMesh" id=14]
+[ext_resource path="res://magicavoxel-samples/3x3x3.vox" type="ArrayMesh" id=15]
+[ext_resource path="res://magicavoxel-samples/chr_knight.vox" type="ArrayMesh" id=16]
+[ext_resource path="res://magicavoxel-samples/teapot.vox" type="ArrayMesh" id=17]
 
 [sub_resource type="QuadMesh" id=1]
 
@@ -28,7 +30,7 @@ background_sky_custom_fov = 0.0
 background_color = Color( 0, 0, 0, 1 )
 background_energy = 1.0
 background_canvas_max_layer = 0
-ambient_light_color = Color( 0, 0, 0, 1 )
+ambient_light_color = Color( 0.132812, 0.132812, 0.132812, 1 )
 ambient_light_energy = 1.0
 ambient_light_sky_contribution = 1.0
 fog_enabled = false
@@ -98,6 +100,7 @@ adjustment_enabled = false
 adjustment_brightness = 1.0
 adjustment_contrast = 1.0
 adjustment_saturation = 1.0
+_sections_unfolded = [ "Ambient Light" ]
 
 [sub_resource type="Animation" id=3]
 
@@ -133,7 +136,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 6.2, 12.6, 18 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 2 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
+"values": [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("MeshInstance2:mesh")
@@ -145,7 +148,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 3.1, 7.3, 11.6, 16.8, 18 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 4 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ]
+"values": [ ExtResource( 4 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("MeshInstance3:mesh")
@@ -157,7 +160,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 5, 6.9, 15.6, 18 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 5 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 13 ) ]
+"values": [ ExtResource( 5 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 15 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Position3D/Camera:translation")
@@ -244,7 +247,7 @@ point_size = 18.0
 
 [node name="MeshInstance3" type="MeshInstance" parent="." index="3"]
 
-transform = Transform( 0.025, 0, 0, 0, 0.025, 0, 0, 0, 0.025, -0.451051, 0.014514, 0 )
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.451051, 0.0140076, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -259,11 +262,49 @@ skeleton = NodePath("..")
 material/0 = null
 script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
-point_size = 18.0
+point_size = 50.0
 
-[node name="OmniLight" type="OmniLight" parent="." index="4"]
+[node name="MeshInstance4" type="MeshInstance" parent="." index="4"]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.154138, 0.762832, -1.23486 )
+transform = Transform( -0.012, 0, -1.81195e-09, 0, 0.012, 0, 1.81195e-09, 0, -0.012, 0.25, 0.014514, 0.25 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = ExtResource( 6 )
+skeleton = NodePath("..")
+material/0 = null
+script = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+point_size = 9.0
+
+[node name="MeshInstance5" type="MeshInstance" parent="." index="5"]
+
+transform = Transform( -0.012, 0, -1.04907e-09, 0, 0.012, 0, 1.04907e-09, 0, -0.012, -0.25, 0.014514, 0.25 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = ExtResource( 7 )
+skeleton = NodePath("..")
+material/0 = null
+script = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+point_size = 9.0
+
+[node name="OmniLight" type="OmniLight" parent="." index="6"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.161507, 0.46358, -0.889187 )
 layers = 1
 light_color = Color( 1, 1, 1, 1 )
 light_energy = 1.0
@@ -284,11 +325,11 @@ omni_shadow_mode = 1
 omni_shadow_detail = 1
 _sections_unfolded = [ "Light", "Shadow", "Transform" ]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="5"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="7"]
 
 environment = SubResource( 2 )
 
-[node name="Position3D" type="Position3D" parent="." index="6"]
+[node name="Position3D" type="Position3D" parent="." index="8"]
 
 transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -0.0238543, 0, 0 )
 _sections_unfolded = [ "Transform" ]
@@ -327,12 +368,12 @@ shadow_bias = 0.15
 shadow_contact = 0.0
 shadow_reverse_cull_face = false
 editor_only = false
-omni_range = 5.0
+omni_range = 2.54623
 omni_attenuation = 1.0
 omni_shadow_mode = 1
 omni_shadow_detail = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="7"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 
 root_node = NodePath("..")
 autoplay = "demo"
@@ -342,7 +383,7 @@ playback_speed = 1.0
 anims/demo = SubResource( 3 )
 blend_times = [  ]
 
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="." index="8"]
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="." index="10"]
 
 root_node = NodePath("..")
 autoplay = "Demo"
@@ -352,7 +393,7 @@ playback_speed = 1.0
 anims/Demo = SubResource( 4 )
 blend_times = [  ]
 
-[node name="Label" type="Label" parent="." index="9"]
+[node name="Label" type="Label" parent="." index="11"]
 
 anchor_left = 0.0
 anchor_top = 0.0

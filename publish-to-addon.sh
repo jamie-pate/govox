@@ -1,1 +1,1 @@
-cp addons/MagicaVoxelImporter/* MagicaVoxel-Importer/addons/
+cp addons/MagicaVoxelImporter/* MagicaVoxel-Importer/addons/MagicaVoxelImporter
