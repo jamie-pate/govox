@@ -184,7 +184,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 20, 21.4, 23.2, 28 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 18.0, 18.0, 3.0, 3.0, 40.0 ]
+"values": [ 12.0, 12.0, 1.0, 1.0, 100.0 ]
 }
 
 [node name="Spatial" type="Spatial" index="0"]
@@ -224,7 +224,7 @@ skeleton = NodePath("..")
 material/0 = null
 script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
-point_size = 18.0
+point_size = 12.0
 
 [node name="MeshInstance2" type="MeshInstance" parent="." index="2"]
 
@@ -243,11 +243,11 @@ skeleton = NodePath("..")
 material/0 = null
 script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
-point_size = 18.0
+point_size = 12.0
 
 [node name="MeshInstance3" type="MeshInstance" parent="." index="3"]
 
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.451051, 0.0140076, 0 )
+transform = Transform( 0.025, 0, 0, 0, 0.025, 0, 0, 0, 0.025, -0.451051, 0.0140076, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -262,7 +262,7 @@ skeleton = NodePath("..")
 material/0 = null
 script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
-point_size = 50.0
+point_size = 12.0
 
 [node name="MeshInstance4" type="MeshInstance" parent="." index="4"]
 
@@ -281,7 +281,7 @@ skeleton = NodePath("..")
 material/0 = null
 script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
-point_size = 9.0
+point_size = 6.0
 
 [node name="MeshInstance5" type="MeshInstance" parent="." index="5"]
 
@@ -300,7 +300,7 @@ skeleton = NodePath("..")
 material/0 = null
 script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
-point_size = 9.0
+point_size = 6.0
 
 [node name="OmniLight" type="OmniLight" parent="." index="6"]
 
@@ -315,8 +315,8 @@ light_bake_mode = 1
 light_cull_mask = -1
 shadow_enabled = false
 shadow_color = Color( 0, 0, 0, 1 )
-shadow_bias = 0.14
-shadow_contact = 0.0
+shadow_bias = 0.2
+shadow_contact = 0.01
 shadow_reverse_cull_face = false
 editor_only = false
 omni_range = 5.0
@@ -372,6 +372,7 @@ omni_range = 2.54623
 omni_attenuation = 1.0
 omni_shadow_mode = 1
 omni_shadow_detail = 1
+_sections_unfolded = [ "Shadow" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 
