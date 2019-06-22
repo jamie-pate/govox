@@ -1,17 +1,17 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
-[ext_resource path="res://c1.vox" type="ArrayMesh" id=2]
-[ext_resource path="res://addons/MagicaVoxelImporter/VoxelMesh.gd" type="Script" id=3]
+[ext_resource path="res://addons/MagicaVoxelImporter/VoxelMesh.gd" type="Script" id=2]
+[ext_resource path="res://Characters_only.tscn" type="PackedScene" id=3]
 [ext_resource path="res://FileDialog.gd" type="Script" id=4]
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 5, 5 )
 
-[sub_resource type="Environment" id=3]
+[sub_resource type="Environment" id=2]
 ambient_light_color = Color( 0.132812, 0.132812, 0.132812, 1 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 length = 10.0
 loop = true
 tracks/0/type = "value"
@@ -27,21 +27,9 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 360, 0 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 28.0
 loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Position3D/Camera:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 12.9, 28 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector3( -5.21541e-008, 0.576291, -1.34988 ), Vector3( -1.75089e-007, 0.959857, -2.59255 ), Vector3( -5.21541e-008, 0.576291, -1.34988 ) ]
-}
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
@@ -52,27 +40,43 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="Model" type="MeshInstance" parent="."]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0.121681, 0.0185863, -0.486573 )
-mesh = ExtResource( 2 )
-material/0 = null
-script = ExtResource( 3 )
-point_size = 3.0
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+script = ExtResource( 2 )
+point_size = 4.0
+
+[node name="Characters" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67745, 0, -0.945084 )
+visible = false
 
 [node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0916136, 1.47898, -1.34932 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0916136, 1.47898, 1.42733 )
+shadow_enabled = true
+shadow_bias = 0.2
+shadow_contact = 0.01
+omni_shadow_mode = 0
+
+[node name="OmniLight2" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.09161, 1.47898, -2.57267 )
+shadow_enabled = true
+shadow_bias = 0.2
+shadow_contact = 0.01
+omni_shadow_mode = 0
+
+[node name="OmniLight3" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.90839, 0.433856, -2.57267 )
 shadow_enabled = true
 shadow_bias = 0.2
 shadow_contact = 0.01
 omni_shadow_mode = 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 3 )
+environment = SubResource( 2 )
 
 [node name="Position3D" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0238543, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0 )
 
 [node name="Camera" type="Camera" parent="Position3D"]
-transform = Transform( -1, 1.7322e-009, -9.30345e-008, -2.57837e-008, 0.955518, 0.294932, 8.9407e-008, 0.294932, -0.955518, -5.21541e-008, 0.576291, -1.34988 )
+transform = Transform( 1, 0, 0, 0, 0.959153, 0.282889, 0, -0.282889, 0.959153, 0, 0, 1.5 )
 
 [node name="OmniLight2" type="OmniLight" parent="Position3D/Camera"]
 transform = Transform( -1, -2.57837e-008, 8.35341e-008, 0, 0.955518, 0.294931, -8.74228e-008, 0.294931, -0.955518, -0.288927, -0.588953, 1.65443 )
@@ -80,11 +84,11 @@ omni_range = 2.54623
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "demo"
-anims/demo = SubResource( 4 )
+anims/demo = SubResource( 3 )
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 autoplay = "Demo"
-anims/Demo = SubResource( 5 )
+anims/Demo = SubResource( 4 )
 
 [node name="Label" type="Label" parent="."]
 margin_right = 40.0
@@ -92,24 +96,98 @@ margin_bottom = 14.0
 
 [node name="FileDialog" type="FileDialog" parent="."]
 visible = true
-margin_right = 602.0
-margin_bottom = 270.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_top = 50.0
+margin_right = -50.0
+margin_bottom = -50.0
 window_title = "Open a File"
 mode = 0
 access = 2
-current_dir = "F:/ReasonUsers/Jamie/Documents/projects/govox"
-current_path = "F:/ReasonUsers/Jamie/Documents/projects/govox/"
+current_dir = "F:/ReasonUsers/Jamie/Documents/projects/ufc-govox"
+current_path = "F:/ReasonUsers/Jamie/Documents/projects/ufc-govox/"
 script = ExtResource( 4 )
 
-[node name="Button" type="Button" parent="."]
-anchor_left = 1.0
+[node name="Control" type="Control" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -47.0
-margin_top = -43.0
-text = "Open"
+margin_top = -44.0
+
+[node name="Button" type="Button" parent="Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -63.0
+margin_top = -1.47021
+margin_bottom = -1.47021
+text = "Load"
+
+[node name="Panel" type="Panel" parent="Control"]
+margin_right = 962.0
+margin_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Panel"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control/Panel/HBoxContainer"]
+margin_top = 13.0
+margin_right = 33.0
+margin_bottom = 27.0
+text = "Scale"
+
+[node name="Scale" type="SpinBox" parent="Control/Panel/HBoxContainer"]
+margin_left = 37.0
+margin_right = 111.0
+margin_bottom = 40.0
+max_value = 10.0
+step = 0.001
+value = 0.01
+
+[node name="Label2" type="Label" parent="Control/Panel/HBoxContainer"]
+margin_left = 115.0
+margin_top = 13.0
+margin_right = 174.0
+margin_bottom = 27.0
+text = "Pont Size"
+
+[node name="PointSize" type="SpinBox" parent="Control/Panel/HBoxContainer"]
+margin_left = 178.0
+margin_right = 252.0
+margin_bottom = 40.0
+min_value = 1.0
+max_value = 30.0
+value = 6.0
+
+[node name="Label3" type="Label" parent="Control/Panel/HBoxContainer"]
+margin_left = 256.0
+margin_top = 13.0
+margin_right = 293.0
+margin_bottom = 27.0
+text = "Zoom"
+
+[node name="Zoom" type="HSlider" parent="Control/Panel/HBoxContainer"]
+margin_left = 297.0
+margin_right = 697.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 400, 40 )
+min_value = 0.25
+max_value = 10.0
+step = 0.001
+value = 1.0
+
+[node name="CheckBox" type="CheckBox" parent="Control/Panel/HBoxContainer"]
+margin_left = 701.0
+margin_right = 796.0
+margin_bottom = 40.0
+text = "Characters"
 
 [connection signal="file_selected" from="FileDialog" to="FileDialog" method="_on_FileDialog_file_selected"]
 [connection signal="files_selected" from="FileDialog" to="FileDialog" method="_on_FileDialog_files_selected"]
-[connection signal="pressed" from="Button" to="FileDialog" method="_on_Button_pressed"]
+[connection signal="pressed" from="Control/Button" to="FileDialog" method="_on_Button_pressed"]
+[connection signal="value_changed" from="Control/Panel/HBoxContainer/Scale" to="." method="_on_Scale_value_changed"]
+[connection signal="value_changed" from="Control/Panel/HBoxContainer/PointSize" to="." method="_on_PointSize_value_changed"]
+[connection signal="value_changed" from="Control/Panel/HBoxContainer/Zoom" to="." method="_on_Zoom_value_changed"]
+[connection signal="toggled" from="Control/Panel/HBoxContainer/CheckBox" to="." method="_on_CheckBox_toggled"]
