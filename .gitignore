@@ -1,2 +1,3 @@
 .import
 *.import
+/addons/MagicaVoxelImporter/voxel-import.gd

@@ -1,5 +1,7 @@
 extends FileDialog
 
+const VoxelImport = preload('res://addons/MagicaVoxelImporter/voxel-import.gd')
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -24,4 +26,5 @@ func _on_FileDialog_files_selected(paths):
 
 
 func _on_FileDialog_file_selected(path):
-	meshInstance.mesh = load(path)
+	var vi = VoxelImport.new()
+	meshInstance.mesh = vi.load_vox(path)

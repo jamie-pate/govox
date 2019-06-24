@@ -36,3 +36,18 @@ func _on_Zoom_value_changed(value):
 
 func _on_CheckBox_toggled(button_pressed):
 	$Characters.visible = button_pressed
+
+
+func _on_CheckButton_toggled(button_pressed):
+	# don't use proper fullscreen because its harder for recording
+	OS.window_borderless = button_pressed
+	OS.window_maximized = button_pressed
+	$Button2.visible = button_pressed
+
+
+func _on_Button2_pressed():
+	get_tree().quit()
+
+
+func _on_CheckButton2_toggled(button_pressed):
+	$AnimationPlayer.playback_active = button_pressed

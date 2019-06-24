@@ -109,6 +109,14 @@ current_dir = "F:/ReasonUsers/Jamie/Documents/projects/ufc-govox"
 current_path = "F:/ReasonUsers/Jamie/Documents/projects/ufc-govox/"
 script = ExtResource( 4 )
 
+[node name="Button2" type="Button" parent="."]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -20.0
+margin_bottom = 20.0
+text = "X"
+
 [node name="Control" type="Control" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
@@ -170,24 +178,42 @@ text = "Zoom"
 
 [node name="Zoom" type="HSlider" parent="Control/Panel/HBoxContainer"]
 margin_left = 297.0
-margin_right = 697.0
+margin_right = 537.0
 margin_bottom = 40.0
-rect_min_size = Vector2( 400, 40 )
+rect_min_size = Vector2( 240, 40 )
 min_value = 0.25
 max_value = 10.0
 step = 0.001
 value = 1.0
 
-[node name="CheckBox" type="CheckBox" parent="Control/Panel/HBoxContainer"]
-margin_left = 701.0
-margin_right = 796.0
+[node name="CheckBox" type="CheckButton" parent="Control/Panel/HBoxContainer"]
+margin_left = 541.0
+margin_right = 688.0
 margin_bottom = 40.0
 text = "Characters"
 
+[node name="CheckButton" type="CheckButton" parent="Control/Panel/HBoxContainer"]
+margin_left = 692.0
+margin_right = 838.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 138, 64 )
+text = "Fullscreen"
+
+[node name="CheckButton2" type="CheckButton" parent="Control/Panel/HBoxContainer"]
+margin_left = 842.0
+margin_right = 963.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 138, 64 )
+pressed = true
+text = "Rotate"
+
 [connection signal="file_selected" from="FileDialog" to="FileDialog" method="_on_FileDialog_file_selected"]
 [connection signal="files_selected" from="FileDialog" to="FileDialog" method="_on_FileDialog_files_selected"]
+[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
 [connection signal="pressed" from="Control/Button" to="FileDialog" method="_on_Button_pressed"]
 [connection signal="value_changed" from="Control/Panel/HBoxContainer/Scale" to="." method="_on_Scale_value_changed"]
 [connection signal="value_changed" from="Control/Panel/HBoxContainer/PointSize" to="." method="_on_PointSize_value_changed"]
 [connection signal="value_changed" from="Control/Panel/HBoxContainer/Zoom" to="." method="_on_Zoom_value_changed"]
 [connection signal="toggled" from="Control/Panel/HBoxContainer/CheckBox" to="." method="_on_CheckBox_toggled"]
+[connection signal="toggled" from="Control/Panel/HBoxContainer/CheckButton" to="." method="_on_CheckButton_toggled"]
+[connection signal="toggled" from="Control/Panel/HBoxContainer/CheckButton2" to="." method="_on_CheckButton2_toggled"]
