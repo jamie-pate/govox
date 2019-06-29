@@ -21,7 +21,7 @@ config/icon="res://icon.png"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "MagicaVoxelImporter" )
+enabled=PoolStringArray( "MagicaVoxelImporter", "godot-plugin-refresher" )
 
 [rendering]
 

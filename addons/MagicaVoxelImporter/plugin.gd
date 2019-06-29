@@ -46,7 +46,9 @@ class ImportPlugin extends EditorImportPlugin:
 	#Those options will show up under 'Import As'
 	func get_import_options(preset):
 		var options = [
-			{'name': 'bone_map', 'default_value': ''}
+			{'name': 'bone_map', 'default_value': ''},
+			{'name': 'smoothing', 'default_value': 1.0,
+				'property_hint': PROPERTY_HINT_RANGE, 'hint_string': '0.0,10.0,0.1'}
 		]
 		#options.append( { "name":"Pack in scene", "default_value":false } )
 		#options.append( { "name":"target_path", "default_value":"" } )
@@ -66,7 +68,8 @@ class ImportPlugin extends EditorImportPlugin:
 		var file: File = File.new()
 		if file.file_exists(save_path) and false:
 			old_mesh = ResourceLoader.load(save_path)
-		var mesh: ArrayMesh = load_vox(source_path, options, platforms, gen_files, old_mesh)
-		
+		var vi = VoxelImport.new()
+		var mesh: ArrayMesh = vi.load_vox(source_path, options, platforms, gen_files, old_mesh)
+
 		var full_path = "%s.%s" % [save_path, get_save_extension()]
 		return ResourceSaver.save(full_path, mesh)
