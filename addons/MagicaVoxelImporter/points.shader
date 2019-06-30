@@ -15,6 +15,7 @@ uniform vec3 uv1_offset;
 uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
 uniform vec2 screen_size;
+uniform float show_normals : hint_range(0,1);
 varying vec2 dc;
 varying vec2 adc;
 varying vec2 aspect;
@@ -38,7 +39,7 @@ void vertex() {
 		float sc = -screen_space.z;
 		vec4 proj_space = PROJECTION_MATRIX * MODELVIEW_MATRIX * vec4(VERTEX, 1.0);
 		// NDC (Normalized Display Coordinates) from clip space:
-		proj_space.xyz /= proj_space.w; 
+		proj_space.xyz /= proj_space.w;
 		dc = proj_space.xy;
 		adc = abs(dc);
 		// pull aspect ratio from projection matrix
@@ -47,10 +48,12 @@ void vertex() {
 		float EDGE_GROW = 0.15 * max(aspect.x, aspect.y);
 		POINT_SIZE *= 1.0/sc * (1.0 + max(adc.x, adc.y) * EDGE_GROW) * max_screen_size * 0.001;
 	}
-	//COLOR = vec4(NORMAL, 1.0);
-	/*if (length(NORMAL) == 0.0) {
-		COLOR = vec4(0, 0, 0, 0)
-	}*/
+	if (show_normals > 0.0) {
+		COLOR = mix(COLOR, vec4(NORMAL, 1.0), show_normals);
+		if (length(NORMAL) == 0.0) {
+			COLOR = vec4(1.0, 0, 1.0, 0)
+		}
+	}
 }
 
 void fragment() {
