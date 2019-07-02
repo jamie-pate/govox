@@ -62,7 +62,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0,
 mesh = SubResource( 1 )
 material/0 = null
 
-[node name="Spatial" parent="." instance=ExtResource( 2 )]
+[node name="Characters" parent="." instance=ExtResource( 2 )]
 
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0916136, 2.10718, 3.20475 )
@@ -89,10 +89,10 @@ omni_shadow_mode = 0
 environment = SubResource( 2 )
 
 [node name="Position3D" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0238543, 0, 0 )
+transform = Transform( -0.770513, 0, -0.637424, 0, 1, 0, 0.637424, 0, -0.770513, -0.0238543, 0, 0 )
 
 [node name="Camera" type="Camera" parent="Position3D"]
-transform = Transform( -1, 1.7322e-009, -9.30345e-008, -2.57837e-008, 0.955518, 0.294932, 8.9407e-008, 0.294932, -0.955518, -1.56029e-007, 0.900389, -2.39989 )
+transform = Transform( -1, 1.7322e-009, -9.30345e-008, -2.57837e-008, 0.955518, 0.294932, 8.9407e-008, 0.294932, -0.955518, -5.21541e-008, 0.576291, -1.34988 )
 
 [node name="OmniLight2" type="OmniLight" parent="Position3D/Camera"]
 transform = Transform( -1, -2.57837e-008, 8.35341e-008, 1.11022e-016, 0.955519, 0.294931, -8.74228e-008, 0.294931, -0.955519, -0.288927, -1.8876, 5.86179 )
