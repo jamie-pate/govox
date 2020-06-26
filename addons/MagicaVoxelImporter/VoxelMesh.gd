@@ -5,6 +5,9 @@ extends MeshInstance
 # var a = 2
 # var b = "textvar"
 export(float) var point_size setget _set_point_size
+export(float) var waist setget _set_waist
+export(float) var displacement_ratio setget _set_displacement
+export(bool) var sitting setget _set_sit
 var _lastmesh
 
 func _ready():
@@ -28,8 +31,11 @@ func _resized():
 		if viewport:
 			var screen_size = viewport.get_size_override() if viewport.is_size_override_enabled() else viewport.size
 			mat.set_shader_param('screen_size', screen_size)
+			if material_override:
+				material_override.set_shader_param('screen_size', screen_size)
 			if mesh:
 				_set_point_size_deferred(point_size)
+
 
 func _set_point_size(value):
 	point_size = value
@@ -41,3 +47,24 @@ func _set_point_size_deferred(value):
 		var mat = mesh.surface_get_material(0)
 		if mat:
 			mat.set_shader_param('point_size', value)
+
+func _set_waist(value):
+	waist = value
+	if mesh:
+		var mat = get_surface_material(0)
+		if mat:
+			mat.set_shader_param('waist', value)
+
+func _set_displacement(value):
+	displacement_ratio = value
+	if mesh:
+		var mat = get_surface_material(0)
+		if mat:
+			mat.set_shader_param('displacement_ratio', value)
+
+func _set_sit(value):
+	sitting = value
+	if mesh:
+		var mat = get_surface_material(0)
+		if mat:
+			mat.set_shader_param("sitting",value)

@@ -1,4 +1,7 @@
-echo "#! /usr/bin/env bash" > ./.git/hooks/post-checkout
-echo "cp MagicaVoxel-Importer/addons/MagicaVoxelImporter/* addons/MagicaVoxelImporter" >> ./.git/hooks/post-checkout
-chmod +x ./.git/hooks/post-checkout
-./.git/hooks/post-checkout
+post_checkout_hook="$(git rev-parse --git-path hooks)/post-checkout"
+echo "#! /usr/bin/env bash" > "$post_checkout_hook"
+echo "mkdir -p addons/MagicaVoxelImporter; \
+    echo 'Updating plugins'; \
+    cp -v MagicaVoxel-Importer/addons/MagicaVoxelImporter/* addons/MagicaVoxelImporter" >> "$post_checkout_hook"
+chmod +x "$post_checkout_hook"
+"$post_checkout_hook"

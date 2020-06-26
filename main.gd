@@ -25,7 +25,7 @@ func _process(delta):
 
 func get_container():
 	 return $Control/Panel/Grid
-	
+
 func _on_Scale_value_changed(value):
 	 $Model.transform = Transform().scaled(Vector3(value, value, value))
 

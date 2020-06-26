@@ -63,6 +63,9 @@ transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 cast_shadow = 0
 script = ExtResource( 2 )
 point_size = 4.0
+waist = 0.0
+displacement_ratio = 0.0
+sitting = false
 
 [node name="Characters" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67745, 0, -0.945084 )
@@ -154,8 +157,11 @@ anchor_bottom = 1.0
 margin_left = 3.0
 margin_top = -128.0
 margin_right = -52.0
-margin_bottom = -4.0
+margin_bottom = -8.0
 columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Scale" type="HBoxContainer" parent="Control/Panel/Grid"]
 margin_right = 147.0
@@ -198,7 +204,7 @@ value = 6.0
 
 [node name="Zoom" type="HBoxContainer" parent="Control/Panel/Grid"]
 margin_left = 301.0
-margin_right = 538.0
+margin_right = 534.0
 margin_bottom = 40.0
 script = ExtResource( 5 )
 
@@ -235,7 +241,7 @@ text = "Fullscreen"
 [node name="Rotate" type="CheckButton" parent="Control/Panel/Grid"]
 margin_left = 301.0
 margin_top = 44.0
-margin_right = 538.0
+margin_right = 534.0
 margin_bottom = 84.0
 rect_pivot_offset = Vector2( 138, 64 )
 pressed = true
@@ -244,12 +250,12 @@ text = "Rotate"
 [node name="NormalDebug" type="HBoxContainer" parent="Control/Panel/Grid"]
 margin_top = 88.0
 margin_right = 147.0
-margin_bottom = 118.0
+margin_bottom = 120.0
 script = ExtResource( 5 )
 
 [node name="Enable" type="CheckBox" parent="Control/Panel/Grid/NormalDebug"]
 margin_right = 120.0
-margin_bottom = 30.0
+margin_bottom = 32.0
 text = "Normal Debug"
 
 [node name="Edit" type="HSlider" parent="Control/Panel/Grid/NormalDebug"]
@@ -264,39 +270,41 @@ ticks_on_borders = true
 
 [node name="ImportParams" type="Label" parent="Control/Panel/Grid"]
 margin_left = 151.0
-margin_top = 96.0
+margin_top = 97.0
 margin_right = 297.0
-margin_bottom = 110.0
+margin_bottom = 111.0
 custom_colors/font_color = Color( 0.454902, 0.454902, 0.454902, 1 )
 text = "Import Params:"
 
 [node name="NormalSmoothing" type="HBoxContainer" parent="Control/Panel/Grid"]
 margin_left = 301.0
 margin_top = 88.0
-margin_right = 538.0
-margin_bottom = 118.0
+margin_right = 534.0
+margin_bottom = 120.0
 script = ExtResource( 5 )
 
 [node name="Label2" type="Label" parent="Control/Panel/Grid/NormalSmoothing"]
-margin_top = 8.0
+margin_top = 9.0
 margin_right = 119.0
-margin_bottom = 22.0
+margin_bottom = 23.0
 text = "Normal Smoothing"
 
 [node name="Edit" type="SpinBox" parent="Control/Panel/Grid/NormalSmoothing"]
 margin_left = 123.0
 margin_right = 197.0
-margin_bottom = 30.0
+margin_bottom = 32.0
 max_value = 10.0
 step = 0.01
 page = 1.0
 
 [node name="Button" type="Button" parent="Control/Panel/Grid/NormalSmoothing"]
 margin_left = 201.0
-margin_right = 237.0
-margin_bottom = 30.0
+margin_right = 233.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
 rect_clip_content = true
 icon = ExtResource( 6 )
+expand_icon = true
 
 [node name="Curve" type="HBoxContainer" parent="Control/Panel/Grid"]
 visible = false
@@ -333,10 +341,9 @@ margin_bottom = -50.0
 window_title = "Open a File"
 mode = 0
 access = 2
-current_dir = "/home/jpate/Documents/escaperoom-git/ufc-govox"
-current_path = "/home/jpate/Documents/escaperoom-git/ufc-govox/"
+current_dir = "/home/jpate/Documents/escaperoom/ufc-govox"
+current_path = "/home/jpate/Documents/escaperoom/ufc-govox/"
 script = ExtResource( 7 )
-
 [connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
 [connection signal="pressed" from="Control/Panel/Button" to="FileDialog" method="_on_Button_pressed"]
 [connection signal="value_changed" from="Control/Panel/Grid/Scale/Edit" to="." method="_on_Scale_value_changed"]

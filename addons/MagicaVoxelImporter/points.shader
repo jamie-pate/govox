@@ -19,7 +19,18 @@ uniform float show_normals : hint_range(0,1);
 varying vec2 dc;
 varying vec2 adc;
 varying vec2 aspect;
+uniform bool sitting;
+uniform float waist = 20f;
+uniform float displacement_ratio = 5f;
 
+float sit(float f)
+{
+	if(f>waist)
+	{
+		return -f/displacement_ratio;
+	}
+	return 0f;
+}
 
 void vertex() {
 	COLOR.rgb = mix( pow((COLOR.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), COLOR.rgb* (1.0 / 12.92), lessThan(COLOR.rgb,vec3(0.04045)) );
@@ -51,11 +62,15 @@ void vertex() {
 	if (show_normals > 0.0) {
 		COLOR = mix(COLOR, vec4(NORMAL, 1.0), show_normals);
 		if (length(NORMAL) == 0.0) {
-			COLOR = vec4(1.0, 0, 1.0, 0)
+			COLOR = vec4(1.0, 0, 1.0, 0);
 		}
 	}
-}
+	if (sitting)
+	{
+		VERTEX.z += sit(VERTEX.y);
+	}
 
+}
 void fragment() {
 	vec2 base_uv = UV;
 	ALBEDO = albedo.rgb * COLOR.rgb;
