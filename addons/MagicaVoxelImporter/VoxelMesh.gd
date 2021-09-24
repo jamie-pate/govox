@@ -18,6 +18,19 @@ func _ready():
 		point_size = 24
 	_resized()
 
+func _get_mats():
+	var result = []
+	var mat = mesh.surface_get_material(0)
+	if mat:
+		result.append(mat)
+	mat = get_surface_material(0)
+	if mat:
+		result.append(mat)
+	mat = material_override
+	if mat:
+		result.append(mat)
+	return result
+
 func _process(delta):
 	if _lastmesh != mesh:
 		_lastmesh = mesh
@@ -26,13 +39,11 @@ func _process(delta):
 
 func _resized():
 	if mesh:
-		var mat = mesh.surface_get_material(0)
 		var viewport = get_viewport()
 		if viewport:
 			var screen_size = viewport.get_size_override() if viewport.is_size_override_enabled() else viewport.size
-			mat.set_shader_param('screen_size', screen_size)
-			if material_override:
-				material_override.set_shader_param('screen_size', screen_size)
+			for mat in _get_mats():
+				mat.set_shader_param('screen_size', screen_size)
 			if mesh:
 				_set_point_size_deferred(point_size)
 
@@ -44,27 +55,23 @@ func _set_point_size(value):
 
 func _set_point_size_deferred(value):
 	if mesh:
-		var mat = mesh.surface_get_material(0)
-		if mat:
+		for mat in _get_mats():
 			mat.set_shader_param('point_size', value)
 
 func _set_waist(value):
 	waist = value
 	if mesh:
-		var mat = get_surface_material(0)
-		if mat:
+		for mat in _get_mats():
 			mat.set_shader_param('waist', value)
 
 func _set_displacement(value):
 	displacement_ratio = value
 	if mesh:
-		var mat = get_surface_material(0)
-		if mat:
+		for mat in _get_mats():
 			mat.set_shader_param('displacement_ratio', value)
 
 func _set_sit(value):
 	sitting = value
 	if mesh:
-		var mat = get_surface_material(0)
-		if mat:
+		for mat in _get_mats():
 			mat.set_shader_param("sitting",value)
