@@ -11,6 +11,7 @@ var files = {}
 func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
+
 	var fd = $FileDialog
 	if fd:
 		var container: Node = get_container()
@@ -18,10 +19,24 @@ func _ready():
 		container.get_node('PointSize').edit_value = $Model.point_size
 		container.get_node('Zoom').edit_value = $Position3D/Camera.transform.origin.z
 
+
 func _process(delta):
 	# Called every frame. Delta is time since last frame.
 	# Update game logic here.
-	$Label.text = '%s' % Engine.get_frames_per_second()
+	var vpsz := get_tree().root.size
+	var verts = Performance.get_monitor(Performance.RENDER_VERTICES_IN_FRAME)
+	var meshes = Performance.get_monitor(Performance.RENDER_OBJECTS_IN_FRAME)
+	var multimesh = ' (%sx multimesh)' % [$MultiMeshInstance.multimesh.instance_count] if $MultiMeshInstance.visible else ''
+	$Label.text = '%s fps %s verts %sx%s (~%s voxels %s mesh%s%s)' % [
+		Engine.get_frames_per_second(),
+		verts,
+		vpsz.x,
+		vpsz.y,
+		round(verts * 0.5),
+		meshes,
+		'es' if meshes != 1 else '',
+		multimesh
+	]
 
 func get_container():
 	 return $Control/Panel/Grid
@@ -99,3 +114,36 @@ func set_show_normals(value, mesh):
 	if mesh:
 		var mat = mesh.surface_get_material(0)
 		mat.set_shader_param('show_normals', value)
+
+func _on_BenchmarkButton_toggled(button_pressed):
+	OS.vsync_enabled = false
+	var mm := $MultiMeshInstance.multimesh as MultiMesh
+	$BenchmarkPos/Camera.current = button_pressed
+	$BenchmarkPos/Light.visible = button_pressed
+	$Position3D/Camera.current = !button_pressed
+	for c in get_children():
+		if c is Spatial:
+			c.visible = !button_pressed
+	$BenchmarkPos.visible = true
+	$MultiMeshInstance.visible = button_pressed
+	if button_pressed:
+		# probably best if this is a power of 2
+		var count := 64
+		var side = ceil(sqrt(count))
+		mm.instance_count = side * side
+		var tfm = $MeshInstance4.global_transform
+		$AnimationPlayer.seek(0.0, true)
+		$AnimationPlayer2.seek(0.0, true)
+		yield(get_tree(), 'idle_frame')
+		yield(get_tree(), 'idle_frame')
+		$AnimationPlayer.stop()
+		$AnimationPlayer2.stop()
+		for x in range(side):
+			for y in range(side):
+				var i = x + (side * y)
+				var itfm = Transform().translated(0.5  * Vector3(x - side * 0.5, 0, y - side * 0.5)) * tfm
+				mm.set_instance_transform(i, itfm)
+	else:
+		mm.instance_count = 0
+		$AnimationPlayer.play()
+		$AnimationPlayer2.play()
