@@ -553,11 +553,46 @@ __meta__ = {
 visible = false
 multimesh = SubResource( 6 )
 
+[node name="FastCheckButton" type="CheckBox" parent="."]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -159.0
+margin_right = -91.0
+margin_bottom = 24.0
+text = "Fast"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FarSpacingCheckButton" type="CheckBox" parent="."]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -378.0
+margin_right = -279.0
+margin_bottom = 24.0
+text = "Far Spacing"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2CheckButton" type="CheckBox" parent="."]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -269.0
+margin_right = -170.0
+margin_bottom = 24.0
+text = "Far Camera"
+
 [node name="BenchmarkButton" type="Button" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -84.0
-margin_bottom = 20.0
+margin_left = -86.0
+margin_top = 2.0
+margin_right = -2.0
+margin_bottom = 22.0
 toggle_mode = true
 text = "Benchmark"
 __meta__ = {
@@ -570,9 +605,15 @@ transform = Transform( -0.923686, -0.0878119, 0.372953, -7.57103e-08, 0.973383, 
 [node name="Camera" type="Camera" parent="BenchmarkPos"]
 transform = Transform( 1, -7.45058e-09, -2.98023e-08, 0, 1, -4.47035e-08, 2.98023e-08, 0, 1, -0.559267, 0.194, 3.69177 )
 
+[node name="Camera2" type="Camera" parent="BenchmarkPos"]
+transform = Transform( 1, -1.49012e-07, 2.98023e-07, -1.49012e-08, 1, 8.9407e-08, 1.78814e-07, -5.96046e-08, 1, -0.559, 0.194, 99 )
+
 [node name="Light" type="OmniLight" parent="BenchmarkPos"]
 transform = Transform( 1, 3.55271e-15, 7.10543e-15, -3.55271e-15, 1, 0, 7.10543e-15, 0, 1, -1.76996e-06, -0.172219, 6.00691 )
 visible = false
 omni_range = 7.46877
 
+[connection signal="toggled" from="FastCheckButton" to="." method="_on_FastCheckButton_toggled"]
+[connection signal="toggled" from="FarSpacingCheckButton" to="." method="_on_FarSpacingCheckButton_toggled"]
+[connection signal="toggled" from="Camera2CheckButton" to="." method="_on_Camera2CheckButton_toggled"]
 [connection signal="toggled" from="BenchmarkButton" to="." method="_on_BenchmarkButton_toggled"]

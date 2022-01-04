@@ -18,6 +18,7 @@ func _ready():
 		container.get_node('Scale').edit_value = $Model.transform.basis.get_scale().z
 		container.get_node('PointSize').edit_value = $Model.point_size
 		container.get_node('Zoom').edit_value = $Position3D/Camera.transform.origin.z
+	_on_BenchmarkButton_toggled(false)
 
 
 func _process(delta):
@@ -118,7 +119,8 @@ func set_show_normals(value, mesh):
 func _on_BenchmarkButton_toggled(button_pressed):
 	OS.vsync_enabled = false
 	var mm := $MultiMeshInstance.multimesh as MultiMesh
-	$BenchmarkPos/Camera.current = button_pressed
+	$BenchmarkPos/Camera.current = button_pressed && !$Camera2CheckButton.pressed
+	$BenchmarkPos/Camera2.current = button_pressed && $Camera2CheckButton.pressed
 	$BenchmarkPos/Light.visible = button_pressed
 	$Position3D/Camera.current = !button_pressed
 	for c in get_children():
@@ -126,6 +128,10 @@ func _on_BenchmarkButton_toggled(button_pressed):
 			c.visible = !button_pressed
 	$BenchmarkPos.visible = true
 	$MultiMeshInstance.visible = button_pressed
+	$FastCheckButton.visible = button_pressed
+	$FarSpacingCheckButton.visible = button_pressed
+	$Camera2CheckButton.visible = button_pressed
+	var spacing = 2.0 if $FarSpacingCheckButton.pressed else 0.5
 	if button_pressed:
 		# probably best if this is a power of 2
 		var count := 64
@@ -141,9 +147,24 @@ func _on_BenchmarkButton_toggled(button_pressed):
 		for x in range(side):
 			for y in range(side):
 				var i = x + (side * y)
-				var itfm = Transform().translated(0.5  * Vector3(x - side * 0.5, 0, y - side * 0.5)) * tfm
+				var itfm = Transform().translated(spacing * Vector3(x - side * 0.5, 0, y - side * 0.5)) * tfm
 				mm.set_instance_transform(i, itfm)
 	else:
 		mm.instance_count = 0
 		$AnimationPlayer.play()
 		$AnimationPlayer2.play()
+
+
+func _on_FastCheckButton_toggled(button_pressed):
+	var mat: ShaderMaterial = $MultiMeshInstance.multimesh.mesh.surface_get_material(0)
+	mat.set_shader_param('fast', button_pressed)
+
+
+func _on_Camera2CheckButton_toggled(button_pressed):
+	$BenchmarkPos/Camera.current = !button_pressed
+	$BenchmarkPos/Camera2.current = button_pressed
+
+
+
+func _on_FarSpacingCheckButton_toggled(button_pressed):
+	_on_BenchmarkButton_toggled(true)
