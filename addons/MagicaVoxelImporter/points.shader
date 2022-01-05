@@ -1,7 +1,6 @@
 shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
 uniform vec4 albedo : hint_color;
-uniform sampler2D texture_albedo : hint_albedo;
 uniform float specular;
 uniform float metallic;
 uniform float roughness : hint_range(0,1);
@@ -11,8 +10,6 @@ uniform sampler2D texture_roughness : hint_white;
 uniform vec4 roughness_texture_channel;
 uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
-uniform vec3 uv2_scale;
-uniform vec3 uv2_offset;
 uniform float show_normals : hint_range(0,1);
 varying vec2 voxel_size;
 uniform bool fast;
@@ -21,6 +18,10 @@ uniform float waist = 20f;
 uniform float displacement_ratio = 5f;
 // increase lod bias to remove more voxels closer to the camera
 uniform float lod_bias = 1.0;
+// worst case lod reduction
+// 5.0 = at most discard 4/5 voxels on each axis.
+// limiting this is somehow faster than allowing the whole mesh to be discarded.
+uniform float lod_worst = 5.0;
 
 float sit(float f)
 {
@@ -109,7 +110,7 @@ void vertex() {
 	// lod_bias allows control over the screendoor effect. 2.0 will be twice as early, 0.0 will disable it.
 	if (mvs < lod_bias) {
 		// each level of reduction will produce even fewer voxels
-		float reduction = ceil(lod_bias / mvs);
+		float reduction = min(lod_worst, ceil(lod_bias / mvs));
 
 		if (
 			mod(VERTEX.x, reduction) >= 1.0 && mod(VERTEX.y + 1.0, reduction) >= 1.0 && mod(VERTEX.z, reduction) >= 1.0 ||
@@ -138,7 +139,6 @@ void fragment() {
 	vec2 edge = abs(POINT_COORD - 0.5) - (vec2(aspect_x, aspect_y));
 	if (edge.x > 0.0 || edge.y > 0.0 || voxel_size == vec2(0.0)) {
 		discard;
-		//ALBEDO = vec3(0.0)
 	}
 	RIM = .05;
 	RIM_TINT = 0.9;
