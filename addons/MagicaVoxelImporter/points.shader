@@ -19,6 +19,8 @@ uniform bool fast;
 uniform bool sitting;
 uniform float waist = 20f;
 uniform float displacement_ratio = 5f;
+// increase lod bias to remove more voxels closer to the camera
+uniform float lod_bias = 1.0;
 
 float sit(float f)
 {
@@ -51,11 +53,7 @@ void vertex() {
 		vec2 adc = abs(proj.xy);
 		vec2 vp_half = VIEWPORT_SIZE * 0.5;
 
-		// hack to enlarge near voxels so they touch their neighbours at extreme angles
-		//float near_scale = (1.0 - tl.z) * 10.0;
 		voxel_size = vec2(1.0) * point_size * VIEWPORT_SIZE.y * 0.75 / sc;
-		//COLOR.rgb = sc > 0.5 ? vec3(1.0) : vec3(0.0);
-		//voxel_size = vec2(1.0) * (1.0/ sc) * VIEWPORT_SIZE.y * 0.075 - vec2(1.0);
 	} else {
 		vec3 voxel_start = VERTEX - half_voxel;
 		vec3 voxel_end = VERTEX + half_voxel;
@@ -64,8 +62,6 @@ void vertex() {
 		vec4 points[8];
 		vec4 voxel = mvp * vec4(VERTEX, 1.0);
 		voxel.xyz /= voxel.w;
-		const float NEAR_CLIP = -500000.0;
-		const float FAR_CLIP = 1.0;
 		// GLES2 doesn't support array initalizers
 		points[0] = MODELVIEW_MATRIX * vec4(voxel_start.xyz, 1.0);
 		points[1] = MODELVIEW_MATRIX * vec4(voxel_start.xy, voxel_end.z, 1.0);
@@ -82,39 +78,49 @@ void vertex() {
 		vec2 vp_half = VIEWPORT_SIZE * 0.5;
 		vec2 tl = vec2(1000.0);
 		vec2 br = vec2(-1000.0);
-		float z = -1000.0;
+		float min_z = 1000.0;
+		float max_z = -1000.0;
 		for (i = 0; i < 8; i++) {
 			points[i].xyz /= points[i].w;
 			tl = min(tl, points[i].xy);
 			br = max(br, points[i].xy);
-			z = max(z, points[i].z);
+			min_z = min(min_z, points[i].z);
+			max_z = max(max_z, points[i].z);
 		}
+		// voxel size is mostly correct at this z level
+		float z = (max_z - min_z) * 0.5 + min_z;
 		vec2 edge = vec2(min(1.0, VIEWPORT_SIZE.y / VIEWPORT_SIZE.x), min(1.0, VIEWPORT_SIZE.x / VIEWPORT_SIZE.y));
 		vec4 br_proj = PROJECTION_MATRIX * vec4(br, z, 1.0);
 		vec4 tl_proj = PROJECTION_MATRIX * vec4(tl, z, 1.0);
 		br_proj.xy /= br_proj.w;
 		tl_proj.xy /= tl_proj.w;
 		voxel_size = (br_proj.xy - tl_proj.xy);
-		vec2 display_coord = voxel_size * 0.5 + tl_proj.xy;
+		vec2 abs_display_coord = abs(voxel_size * 0.5 + tl_proj.xy);
 		// if the voxel is outside the square center of the screen then the
 		// distance between voxels needs to be enlarged to cover gaps..
-		float close = (max(0.0, 1.0 - voxel.z) * 5.0);
-		vec2 edge_boost = max(vec2(0.0), display_coord - edge) * close;
+		vec2 close = min(voxel_size * 10.0, max(0.0, 1.0 - voxel.z) * voxel_size * 200.0);
+		vec2 edge_boost = max(vec2(0.0), abs_display_coord - edge) * close;
 		voxel_size += edge_boost * 0.1;
 		voxel_size *= vp_half;
 	}
 	// screen door transparency if the voxel size is too small, reduces depth buffer overwrites
 	// which improves performance a lot
 	float mvs = max(voxel_size.x, voxel_size.y);
-	if (mvs < 1.0) {
-		mvs = ceil(1.0 / mvs);
-		if (mod(round(VERTEX.x), mvs) > 0.0 ||
-			mod(round(VERTEX.y), mvs) > 0.0 ||
-			mod(round(VERTEX.z), mvs) > 0.0) {
-				voxel_size = vec2(0.0);
-			}
+	// lod_bias allows control over the screendoor effect. 2.0 will be twice as early, 0.0 will disable it.
+	if (mvs < lod_bias) {
+		// each level of reduction will produce even fewer voxels
+		float reduction = ceil(lod_bias / mvs);
+
+		if (
+			mod(VERTEX.x, reduction) >= 1.0 && mod(VERTEX.y + 1.0, reduction) >= 1.0 && mod(VERTEX.z, reduction) >= 1.0 ||
+			mod(VERTEX.x + 1.0, reduction) >= 1.0 && mod(VERTEX.y, reduction) >= 1.0 && mod(VERTEX.z, reduction) >= 1.0 ||
+			mod(VERTEX.x + 1.0, reduction) >= 1.0 && mod(VERTEX.y + 1.0, reduction) >= 1.0 && mod(VERTEX.z + 1.0, reduction) >= 1.0 ||
+			mod(VERTEX.x, reduction) >= 1.0 && mod(VERTEX.y, reduction) >= 1.0 && mod(VERTEX.z + 1.0, reduction) >= 1.0
+		) {
+			voxel_size = vec2(0.0);
+		}
 	}
-	POINT_SIZE = max(voxel_size.x, voxel_size.y) + 2.0;
+	POINT_SIZE = max(voxel_size.x, voxel_size.y);
 
 	if (show_normals > 0.0) {
 		COLOR = mix(COLOR, vec4(NORMAL, 1.0), show_normals);

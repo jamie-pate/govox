@@ -542,57 +542,80 @@ anims/demo = SubResource( 4 )
 autoplay = "Demo"
 anims/Demo = SubResource( 5 )
 
-[node name="Label" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="MultiMeshInstance" type="MultiMeshInstance" parent="."]
 visible = false
 multimesh = SubResource( 6 )
 
-[node name="FastCheckButton" type="CheckBox" parent="."]
-visible = false
-anchor_left = 1.0
+[node name="Bench" type="HBoxContainer" parent="."]
 anchor_right = 1.0
-margin_left = -159.0
-margin_right = -91.0
-margin_bottom = 24.0
+margin_bottom = 25.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Bench"]
+margin_top = 5.0
+margin_bottom = 19.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer" type="Control" parent="Bench"]
+margin_left = 4.0
+margin_right = 298.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="LODBias" type="Label" parent="Bench"]
+margin_left = 302.0
+margin_top = 5.0
+margin_right = 373.0
+margin_bottom = 19.0
+text = "LOD Bias 1"
+
+[node name="LODBiasSlider" type="HSlider" parent="Bench"]
+margin_left = 377.0
+margin_right = 672.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 20.0
+step = 0.1
+value = 1.0
+exp_edit = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FastCheckButton" type="CheckBox" parent="Bench"]
+margin_left = 676.0
+margin_right = 730.0
+margin_bottom = 25.0
 text = "Fast"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FarSpacingCheckButton" type="CheckBox" parent="."]
-visible = false
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -378.0
-margin_right = -279.0
-margin_bottom = 24.0
+[node name="FarSpacingCheckButton" type="CheckBox" parent="Bench"]
+margin_left = 734.0
+margin_right = 833.0
+margin_bottom = 25.0
 text = "Far Spacing"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Camera2CheckButton" type="CheckBox" parent="."]
-visible = false
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -269.0
-margin_right = -170.0
-margin_bottom = 24.0
+[node name="Camera2CheckButton" type="CheckBox" parent="Bench"]
+margin_left = 837.0
+margin_right = 936.0
+margin_bottom = 25.0
 text = "Far Camera"
 
-[node name="BenchmarkButton" type="Button" parent="."]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -86.0
-margin_top = 2.0
-margin_right = -2.0
-margin_bottom = 22.0
+[node name="BenchmarkButton" type="Button" parent="Bench"]
+margin_left = 940.0
+margin_right = 1024.0
+margin_bottom = 25.0
 toggle_mode = true
 text = "Benchmark"
 __meta__ = {
@@ -613,7 +636,8 @@ transform = Transform( 1, 3.55271e-15, 7.10543e-15, -3.55271e-15, 1, 0, 7.10543e
 visible = false
 omni_range = 7.46877
 
-[connection signal="toggled" from="FastCheckButton" to="." method="_on_FastCheckButton_toggled"]
-[connection signal="toggled" from="FarSpacingCheckButton" to="." method="_on_FarSpacingCheckButton_toggled"]
-[connection signal="toggled" from="Camera2CheckButton" to="." method="_on_Camera2CheckButton_toggled"]
-[connection signal="toggled" from="BenchmarkButton" to="." method="_on_BenchmarkButton_toggled"]
+[connection signal="value_changed" from="Bench/LODBiasSlider" to="." method="_on_LODBiasSlider_value_changed"]
+[connection signal="toggled" from="Bench/FastCheckButton" to="." method="_on_FastCheckButton_toggled"]
+[connection signal="toggled" from="Bench/FarSpacingCheckButton" to="." method="_on_FarSpacingCheckButton_toggled"]
+[connection signal="toggled" from="Bench/Camera2CheckButton" to="." method="_on_Camera2CheckButton_toggled"]
+[connection signal="toggled" from="Bench/BenchmarkButton" to="." method="_on_BenchmarkButton_toggled"]

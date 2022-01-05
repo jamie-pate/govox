@@ -28,7 +28,7 @@ func _process(delta):
 	var verts = Performance.get_monitor(Performance.RENDER_VERTICES_IN_FRAME)
 	var meshes = Performance.get_monitor(Performance.RENDER_OBJECTS_IN_FRAME)
 	var multimesh = ' (%sx multimesh)' % [$MultiMeshInstance.multimesh.instance_count] if $MultiMeshInstance.visible else ''
-	$Label.text = '%s fps %s verts %sx%s (~%s voxels %s mesh%s%s)' % [
+	$Bench/Label.text = '%s fps %s verts %sx%s (~%s voxels %s mesh%s%s)' % [
 		Engine.get_frames_per_second(),
 		verts,
 		vpsz.x,
@@ -119,8 +119,8 @@ func set_show_normals(value, mesh):
 func _on_BenchmarkButton_toggled(button_pressed):
 	OS.vsync_enabled = false
 	var mm := $MultiMeshInstance.multimesh as MultiMesh
-	$BenchmarkPos/Camera.current = button_pressed && !$Camera2CheckButton.pressed
-	$BenchmarkPos/Camera2.current = button_pressed && $Camera2CheckButton.pressed
+	$BenchmarkPos/Camera.current = button_pressed && !$Bench/Camera2CheckButton.pressed
+	$BenchmarkPos/Camera2.current = button_pressed && $Bench/Camera2CheckButton.pressed
 	$BenchmarkPos/Light.visible = button_pressed
 	$Position3D/Camera.current = !button_pressed
 	for c in get_children():
@@ -128,10 +128,9 @@ func _on_BenchmarkButton_toggled(button_pressed):
 			c.visible = !button_pressed
 	$BenchmarkPos.visible = true
 	$MultiMeshInstance.visible = button_pressed
-	$FastCheckButton.visible = button_pressed
-	$FarSpacingCheckButton.visible = button_pressed
-	$Camera2CheckButton.visible = button_pressed
-	var spacing = 2.0 if $FarSpacingCheckButton.pressed else 0.5
+	for c in $Bench.get_children():
+		c.visible = button_pressed || c in [$Bench/BenchmarkButton, $Bench/Label, $Bench/Spacer]
+	var spacing = 2.0 if $Bench/FarSpacingCheckButton.pressed else 0.5
 	if button_pressed:
 		# probably best if this is a power of 2
 		var count := 64
@@ -168,3 +167,9 @@ func _on_Camera2CheckButton_toggled(button_pressed):
 
 func _on_FarSpacingCheckButton_toggled(button_pressed):
 	_on_BenchmarkButton_toggled(true)
+
+
+func _on_LODBiasSlider_value_changed(value):
+	var mat: ShaderMaterial = $MultiMeshInstance.multimesh.mesh.surface_get_material(0)
+	mat.set_shader_param('lod_bias', value)
+	$Bench/LODBias.text = 'LOD Bias %s' % [value]
