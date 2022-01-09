@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://c1_t.vox" type="ArrayMesh" id=1]
+[ext_resource path="res://gestures/c1_t/c1_t.dae" type="PackedScene" id=2]
+[ext_resource path="res://gestures/c1_t/Shuffling.dae" type="PackedScene" id=3]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="c1_t" parent="." instance=ExtResource( 2 )]
+
+[node name="unamed" parent="c1_t/Skeleton" index="0"]
+visible = false
+
+[node name="Shuffling" parent="." instance=ExtResource( 3 )]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+skeleton = NodePath("../c1_t/Skeleton")
+material/0 = null
+
+[editable path="c1_t"]
+[editable path="Shuffling"]

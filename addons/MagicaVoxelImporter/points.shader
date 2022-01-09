@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+render_mode blend_mix,depth_draw_always,diffuse_burley,specular_schlick_ggx, skip_vertex_transform;
 uniform vec4 albedo : hint_color;
 uniform float specular;
 uniform float metallic;
@@ -12,6 +12,7 @@ uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
 uniform float show_normals : hint_range(0,1);
 varying vec2 voxel_size;
+uniform float root_scale = 1.0f;
 uniform bool fast;
 uniform bool sitting;
 uniform float waist = 20f;
@@ -42,12 +43,15 @@ void vertex() {
 	ROUGHNESS=roughness;
 	UV=UV*uv1_scale.xy+uv1_offset.xy;
 
-	const vec3 half_voxel = vec3(0.5);
-
-	if (fast || PROJECTION_MATRIX[3][3] != 0.0) {
+	vec3 half_voxel = vec3(0.5) * root_scale;
+	bool ortho = PROJECTION_MATRIX[3][3] != 0.0;
+	mat4 mvp = PROJECTION_MATRIX * MODELVIEW_MATRIX;
+	if (fast && !ortho) {
+		// broken with root scale
 		vec4 screen = MODELVIEW_MATRIX * vec4(VERTEX, 1.0);
 		vec4 proj = PROJECTION_MATRIX * screen;
-		float point_size = length(vec3(MODELVIEW_MATRIX[0][0], MODELVIEW_MATRIX[1][0], MODELVIEW_MATRIX[2][0]));
+
+		float point_size = length(vec3(MODELVIEW_MATRIX[0][0], MODELVIEW_MATRIX[1][0], MODELVIEW_MATRIX[2][0])) * root_scale;
 		float sc = -screen.z;
 		proj.xyz /= proj.w;
 		// absolute display coordinates of the vertex
@@ -59,7 +63,6 @@ void vertex() {
 		vec3 voxel_start = VERTEX - half_voxel;
 		vec3 voxel_end = VERTEX + half_voxel;
 		// voxel corners
-		mat4 mvp = PROJECTION_MATRIX * MODELVIEW_MATRIX;
 		vec4 points[8];
 		vec4 voxel = mvp * vec4(VERTEX, 1.0);
 		voxel.xyz /= voxel.w;
@@ -130,7 +133,15 @@ void vertex() {
 		}
 	}
 
+	// because of skip_vertex_transform.
+	// which we need because VERTEX.z isn't transformed by skeletons?
+	vec4 vert = MODELVIEW_MATRIX * vec4(VERTEX, 1.0);
+	vert.xyz /= vert.w;
+	VERTEX.xyz = vert.xyz;
+	// SEE ENSURE_CORRECT_NORMALS in the godot scene.glsl if we use shear etc and it looks weird
+	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
 }
+
 void fragment() {
 	vec2 base_uv = UV;
 	ALBEDO = albedo.rgb * COLOR.rgb;
