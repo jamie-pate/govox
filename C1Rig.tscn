@@ -1,37 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://c1_t.vox" type="ArrayMesh" id=1]
+[ext_resource path="res://RigArea.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/MagicaVoxelImporter/BoneRig.gd" type="Script" id=3]
 [ext_resource path="res://gestures/c1_t/Shuffling.dae" type="PackedScene" id=4]
 [ext_resource path="res://gestures/c1_t/T-Pose.dae" type="PackedScene" id=6]
-
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 0.136905, 0.1, 0.049343 )
-
-[sub_resource type="BoxShape" id=2]
-extents = Vector3( 0.17326, 0.11763, 0.1 )
-
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 0.17656, 0.15651, 0.1 )
-
-[sub_resource type="BoxShape" id=4]
-extents = Vector3( 0.0769829, 0.200977, 0.1 )
-
-[sub_resource type="BoxShape" id=5]
-extents = Vector3( 0.0755152, 0.121533, 0.1 )
-
-[sub_resource type="BoxShape" id=6]
-extents = Vector3( 0.114892, 0.053868, 0.173162 )
-
-[sub_resource type="BoxShape" id=7]
-extents = Vector3( 0.1, 0.1, 0.0570381 )
-
-[sub_resource type="BoxShape" id=8]
-extents = Vector3( 0.11337, 0.0365985, 0.0769675 )
-
-[sub_resource type="CapsuleShape" id=9]
-radius = 0.192714
-height = 0.162091
 
 [sub_resource type="Animation" id=10]
 resource_name = "New Anim"
@@ -78,84 +51,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 [node name="unamed" parent="T-Pose/Skeleton" index="0"]
 visible = false
 
-[node name="Area" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.025 )
-
-[node name="mixamorig_LeftHand" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.677, 1.056, 0 )
-shape = SubResource( 1 )
-
-[node name="mixamorig_Spine" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0 )
-shape = SubResource( 2 )
-
-[node name="mixamorig_Spine1" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7849, 0 )
-shape = SubResource( 3 )
-
-[node name="mixamorig_Spine2" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.971266, 0 )
-shape = SubResource( 3 )
-
-[node name="mixamorig_RightUpLeg" type="CollisionShape" parent="Area"]
-transform = Transform( 0.997806, 0.0662042, 0, -0.0662042, 0.997806, 0, 0, 0, 1, -0.09, 0.394, 0 )
-shape = SubResource( 4 )
-
-[node name="mixamorig_RightLeg" type="CollisionShape" parent="Area"]
-transform = Transform( 0.997806, 0.0662042, 0, -0.0662042, 0.997806, 0, 0, 0, 1, -0.09, 0.192287, 0 )
-shape = SubResource( 5 )
-
-[node name="mixamorig_RightFoot" type="CollisionShape" parent="Area"]
-transform = Transform( 0.997806, 0.0662042, 0, -0.0662042, 0.997806, 0, 0, 0, 1, -0.133322, -0.00298372, 0 )
-shape = SubResource( 6 )
-
-[node name="mixamorig_LeftFoot" type="CollisionShape" parent="Area"]
-transform = Transform( -0.997806, -0.0662042, -1.50996e-07, -0.0662042, 0.997806, 3.51763e-15, 1.50665e-07, 9.99656e-09, -1, 0.134, -0.002, 0 )
-shape = SubResource( 6 )
-
-[node name="mixamorig_LeftLeg" type="CollisionShape" parent="Area"]
-transform = Transform( -0.997806, -0.0662042, -1.50996e-07, -0.0662042, 0.997806, 3.51763e-15, 1.50665e-07, 9.99656e-09, -1, 0.09, 0.192, 0 )
-shape = SubResource( 5 )
-
-[node name="mixamorig_LeftUpLeg" type="CollisionShape" parent="Area"]
-transform = Transform( -0.997806, -0.0662042, -1.50996e-07, -0.0662042, 0.997806, 3.51763e-15, 1.50665e-07, 9.99656e-09, -1, 0.09, 0.394, 0 )
-shape = SubResource( 4 )
-
-[node name="mixamorig_RightShoulder" type="CollisionShape" parent="Area"]
-transform = Transform( 0.921714, 1.69543e-08, 0.38787, 0.38787, -4.02894e-08, -0.921714, 0, 1, -4.37114e-08, -0.177898, 1.08737, -0.009 )
-shape = SubResource( 7 )
-
-[node name="mixamorig_RightArm" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.312913, 1.056, 0 )
-shape = SubResource( 1 )
-
-[node name="mixamorig_RightForeArm" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.497384, 1.056, 0 )
-shape = SubResource( 1 )
-
-[node name="mixamorig_RightHand" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.676747, 1.056, 0 )
-shape = SubResource( 1 )
-
-[node name="mixamorig_LeftShoulder" type="CollisionShape" parent="Area"]
-transform = Transform( -0.921714, 8.40008e-08, 0.387869, 0.387869, -1.69543e-08, 0.921714, 8.40008e-08, 1, -1.69543e-08, 0.178, 1.087, -0.009 )
-shape = SubResource( 7 )
-
-[node name="mixamorig_LeftArm" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.313, 1.056, 0 )
-shape = SubResource( 1 )
-
-[node name="mixamorig_LeftForeArm" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.497, 1.056, 0 )
-shape = SubResource( 1 )
-
-[node name="mixamorig_Neck" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13442, 0 )
-shape = SubResource( 8 )
-
-[node name="mixamorig_Head" type="CollisionShape" parent="Area"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.35169, 0 )
-shape = SubResource( 9 )
+[node name="Area" parent="." instance=ExtResource( 2 )]
 
 [node name="Position3D" type="Position3D" parent="."]
 
@@ -177,3 +73,4 @@ material/0 = null
 
 [editable path="Shuffling"]
 [editable path="T-Pose"]
+[editable path="Area"]

@@ -10,13 +10,15 @@ uniform sampler2D texture_roughness : hint_white;
 uniform vec4 roughness_texture_channel;
 uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
-uniform float show_normals : hint_range(0,1);
+uniform float show_normals : hint_range(0, 1);
+// This only works if the mesh was imported with "Copy Bones to UV"
+uniform float show_bone_weights : hint_range(0, 1);
 varying vec2 voxel_size;
-uniform float root_scale = 1.0f;
+uniform float root_scale = 1.0;
 uniform bool fast;
 uniform bool sitting;
-uniform float waist = 20f;
-uniform float displacement_ratio = 5f;
+uniform float waist = 20.0;
+uniform float displacement_ratio = 5.0;
 // increase lod bias to remove more voxels closer to the camera
 uniform float lod_bias = 1.0;
 // worst case lod reduction
@@ -30,7 +32,7 @@ float sit(float f)
 	{
 		return -f/displacement_ratio;
 	}
-	return 0f;
+	return 0.0;
 }
 
 void vertex() {
@@ -41,8 +43,8 @@ void vertex() {
 	COLOR.rgb = mix( pow((COLOR.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), COLOR.rgb* (1.0 / 12.92), lessThan(COLOR.rgb,vec3(0.04045)) );
 	float max_screen_size = max(VIEWPORT_SIZE.x, VIEWPORT_SIZE.y);
 	ROUGHNESS=roughness;
+	vec4 bone_color = vec4(UV, UV2);
 	UV=UV*uv1_scale.xy+uv1_offset.xy;
-
 	vec3 half_voxel = vec3(0.5) * root_scale;
 	bool ortho = PROJECTION_MATRIX[3][3] != 0.0;
 	mat4 mvp = PROJECTION_MATRIX * MODELVIEW_MATRIX;
@@ -131,6 +133,9 @@ void vertex() {
 		if (length(NORMAL) == 0.0) {
 			COLOR = vec4(1.0, 0, 1.0, 0);
 		}
+	}
+	if (show_bone_weights > 0.0) {
+		COLOR = mix(COLOR, bone_color, show_bone_weights);
 	}
 
 	// because of skip_vertex_transform.

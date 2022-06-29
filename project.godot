@@ -24,4 +24,5 @@ enabled=PoolStringArray( "res://addons/MagicaVoxelImporter/plugin.cfg" )
 
 [rendering]
 
+gles3/shaders/shader_compilation_mode=0
 environment/default_environment="res://default_env.tres"

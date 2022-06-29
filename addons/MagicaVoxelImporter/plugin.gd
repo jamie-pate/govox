@@ -53,7 +53,11 @@ class ImportPlugin extends EditorImportPlugin:
 			{'name': 'smoothing', 'default_value': 1.0,
 				'property_hint': PROPERTY_HINT_RANGE, 'hint_string': '0.0,10.0,0.1'},
 			{'name': 'bones', 'default_value': [], 'usage': PROPERTY_USAGE_NOEDITOR},
-			{'name': 'weights', 'default_value': [], 'usage': PROPERTY_USAGE_NOEDITOR}
+			{'name': 'weights', 'default_value': [], 'usage': PROPERTY_USAGE_NOEDITOR},
+			{'name': 'copy_bones_to_uv', 'default_value': false,
+				'property_hint': PROPERTY_HINT_ENUM,
+				'hint_string': 'Off,Debug'
+			}
 		]
 		#options.append( { "name":"Pack in scene", "default_value":false } )
 		#options.append( { "name":"target_path", "default_value":"" } )
