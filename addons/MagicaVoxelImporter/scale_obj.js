@@ -17,7 +17,9 @@ main();
 
 
 function main() {
-    const objFile = readFileSync(filename, 'ascii').split('\n');
+    const content = readFileSync(filename, 'ascii');
+    const sep = /\r\n/.test(content) ? '\r\n' : '\n';
+    const objFile = content.split(sep);
     for (let i = 0; i < objFile.length; ++i) {
         if (objFile[i].startsWith('v ')) {
             objFile[i] = objFile[i].split(' ').map((v, i) =>
@@ -26,9 +28,9 @@ function main() {
         }
     }
     if (outFilename == '-') {
-        console.log(objFile.join('\n'));
+        process.stdout.write(objFile.join(sep));
     } else {
-        writeFileSync(outFilename || filename, objFile.join('\n'), 'ascii');
+        writeFileSync(outFilename || filename, objFile.join(sep), 'ascii');
     }
 }
 

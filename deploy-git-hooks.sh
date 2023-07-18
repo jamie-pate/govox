@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 post_checkout_hook="$(git rev-parse --git-path hooks)/post-checkout"
 echo "#! /usr/bin/env bash" > "$post_checkout_hook"
 echo "mkdir -p addons/MagicaVoxelImporter; \
