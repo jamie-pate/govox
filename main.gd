@@ -6,7 +6,14 @@ const PERSIST_NODES = [
 	'ImageSizeY',
 	'CaptureCount',
 	'EncodeVideo',
-	'Model'
+	'FileDialog',
+	'BgFileDialog',
+	'SaveFileDialog'
+]
+const PERSIST_KEYS = [
+	'value',
+	'pressed',
+	'current_path'
 ]
 
 const VoxelImport = preload('res://addons/MagicaVoxelImporter/voxel-import.gd')
@@ -15,7 +22,8 @@ const VoxelImport = preload('res://addons/MagicaVoxelImporter/voxel-import.gd')
 # var a = 2
 # var b = "textvar"
 
-var files = {}
+var files := {}
+var _loading := false
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -32,44 +40,71 @@ func _ready():
 	_load_settings()
 
 
+func _enter_tree():
+	var err := get_tree().connect('files_dropped', self, '_on_files_dropped')
+	assert(err == OK)
+
+
+func _exit_tree():
+	get_tree().disconnect('files_dropped', self, '_on_files_dropped')
+
+
 func _on_Control_changed():
 	_save_settings()
+
+
+func _on_CaptureCount_value_changed(value):
+	_on_Control_changed()
 
 
 func _load_settings():
 	var f := File.new()
 	var err := f.open(SETTINGS_FILE, File.READ)
 	if err == ERR_FILE_NOT_FOUND:
+		msg('No saved settings file found')
 		return
+	msg('Loading settings from previous session')
 	assert(err == OK, 'Unable to load %s for reading: %s' % [SETTINGS_FILE, err])
 	var json := JSON.parse(f.get_as_text())
 	f.close()
 	assert(json.error == OK, 'Unable to parse %s: %s (%s on line %s)' % [SETTINGS_FILE, json.error, json.error_string, json.error_line])
+
+	# no returns or asserts between setting and unsetting this flag
+	_loading = true
 	for name in PERSIST_NODES:
 		if name in json.result:
 			var n = get_node_or_null('%%%s' % [name])
 			if !n:
-				printerr('unable to find node to load setting: %s' % [name])
+				msgerr('unable to find node to load setting: %s' % [name])
 			else:
-				if 'value' in n:
-					n.value = json.result[name]
-				if 'pressed' in n:
-					n.pressed = json.result[name]
+				for k in PERSIST_KEYS:
+					if k in n:
+						n[k] = json.result[name]
+	_loading = false
 	if 'files' in json.result:
 		files = json.result.files
 		reload_vox()
 
+
+func _on_files_dropped(files: PoolStringArray, screen: int) -> void:
+	for path in files:
+		if path.get_extension() == 'vox':
+			_on_FileDialog_file_load(0, path)
+			return
+
+
 func _save_settings():
+	if _loading:
+		return
 	var settings := {}
 	for name in PERSIST_NODES:
 		var n = get_node_or_null('%%%s' % [name])
 		if !n:
-			printerr('unable to find node to save settings: %s' % [name])
+			msgerr('unable to find node to save settings: %s' % [name])
 		else:
-			if 'value' in n:
-				settings[name] = n.value
-			if 'pressed' in n:
-				settings[name] = n.pressed
+			for k in PERSIST_KEYS:
+				if k in n:
+					settings[name] = n[k]
 	settings.files = files
 	var f := File.new()
 	var err := f.open(SETTINGS_FILE, File.WRITE)
@@ -169,6 +204,7 @@ func _on_BgFileDialog_file_load(index, path):
 	var tex = ImageTexture.new()
 	tex.load(path)
 	$'%Background'.texture = tex
+	_save_settings()
 
 func reload_vox():
 	for index in files:
@@ -245,6 +281,10 @@ func _on_LODBiasSlider_value_changed(value):
 	$Bench/LODBias.text = 'LOD Bias %s' % [value]
 
 
+func _ease_in_out_quad(x: float):
+	return 2 * x * x if x < 0.5 else 1 - pow(-2 * x + 2, 2) / 2;
+
+
 func _on_SaveFileDialog_file_load(index, path):
 	var cb := $'%CaptureProgressBar' as ProgressBar
 	var cc := $'%CaptureCount' as SpinBox
@@ -264,10 +304,12 @@ func _on_SaveFileDialog_file_load(index, path):
 	cb.value = 0
 	cb.max_value = cc.value
 	for i in cc.value:
-		p.rotation_degrees.y = 360 * (float(i) / float(cc.value))
+		var raw_y := (float(i) / float(cc.value))
+		p.rotation_degrees.y = 360 * _ease_in_out_quad(raw_y)
 		var filename := '%s%04d.%s' % [file_base, i, file_ext]
 		yield(VisualServer, 'frame_post_draw')
 		var data := vp.get_texture().get_data()
+		data.convert(Image.FORMAT_RGBA8)
 		data.flip_y()
 		data.save_png(filename)
 		cb.value = i
@@ -275,7 +317,7 @@ func _on_SaveFileDialog_file_load(index, path):
 	vp.size = size
 	if $'%EncodeVideo'.pressed:
 		cb.value = cb.max_value
-		var cmd := 'ffmpeg'
+		var cmd := _find_ffmpeg()
 		var args := PoolStringArray([
 			'-framerate', '30',
 			'-pattern_type', 'sequence', '-i', '%s%%04d.%s' % [file_base,  file_ext],
@@ -286,16 +328,61 @@ func _on_SaveFileDialog_file_load(index, path):
 			'%s.webm' % [file_base]
 		])
 		var args_str := args.join(' ')
-		print('%s %s:' % [cmd, args_str])
+		msg('Running Command:\n%s %s\n...' % [cmd, args_str])
 		var output = []
 		var result := OS.execute(cmd, args, true, output, true, true)
 		if !result == OK:
-			printerr('Error: %s exited with %s' % [cmd, result])
-		print(output)
+			msgerr('Error: %s exited with %s' % [cmd, result])
+		msg(PoolStringArray(output).join("\n").strip_edges())
 	cb.visible = false
+	_save_settings()
 
+
+func _find_ffmpeg() -> String:
+	var cmd := 'ffmpeg'
+	var app_path := OS.get_executable_path().get_base_dir()
+	var macos_path := '/Contents/MacOS'
+	if app_path.ends_with(macos_path):
+		app_path = "%s/.." % [app_path.trim_suffix(macos_path)]
+
+	var try_cmds := [
+		'/opt/local/bin/ffmpeg',
+		'/usr/local/bin/ffmpeg',
+		'/usr/bin/ffmpeg',
+		'%s/ffmpeg' % [app_path],
+	]
+	var result := OS.execute(cmd, ['-version'])
+	var tried := PoolStringArray()
+	if result != OK:
+		var d := Directory.new()
+		for ext in ['', '.exe']:
+			for tc in try_cmds:
+				var fc := "%s%s" % [tc, ext]
+				if d.file_exists(fc):
+					msg('Found ffmpeg at %s' % [fc])
+					cmd = fc
+					break
+				else:
+					tried.append(fc)
+			if cmd != 'ffmpeg':
+				break
+		if cmd == 'ffmpeg':
+			msgerr('Unable to find ffmpeg, checked these paths:\n%s' % [tried.join('\n')])
+	return cmd
 
 func _on_CloseButton_pressed():
 	for n in get_tree().get_nodes_in_group('Menu'):
 		n.visible = true
 	queue_free()
+
+
+func msg(value: String, error := false):
+	$'%Messages'.text += "%s\n" % [value]
+	if error:
+		printerr(value)
+	else:
+		print(value)
+
+
+func msgerr(value):
+	msg(value, true)
