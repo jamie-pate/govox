@@ -377,7 +377,9 @@ func _on_CloseButton_pressed():
 
 
 func msg(value: String, error := false):
-	$'%Messages'.text += "%s\n" % [value]
+	var m := get_node_or_null('%Messages')
+	if m:
+		m.text += "%s\n" % [value]
 	if error:
 		printerr(value)
 	else:
