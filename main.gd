@@ -8,7 +8,10 @@ const PERSIST_NODES = [
 	'EncodeVideo',
 	'FileDialog',
 	'BgFileDialog',
-	'SaveFileDialog'
+	'SaveFileDialog',
+	'CamDist',
+	'CamTilt',
+	'CamHeight'
 ]
 const PERSIST_KEYS = [
 	'value',
@@ -24,6 +27,7 @@ const VoxelImport = preload('res://addons/MagicaVoxelImporter/voxel-import.gd')
 
 var files := {}
 var _loading := false
+var _cam_orig := {}
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -32,8 +36,15 @@ func _ready():
 	var fd = $FileDialog
 	if fd:
 		var container: Node = get_container()
+		_loading = true
 		container.get_node('Scale').edit_value = $Model.transform.basis.get_scale().z
-		container.get_node('Zoom').edit_value = $'%Position3D/Camera'.transform.origin.z
+		container.get_node('Zoom').edit_value = $'%Camera'.transform.origin.z
+		container.get_node('CamTilt').edit_value = $'%ZoomPlane'.rotation_degrees.x
+		container.get_node('CamHeight').edit_value = $'%Position3D'.transform.origin.y
+		_loading = false
+		for name in ['Zoom', 'CamTilt', 'CamHeight']:
+			var n := container.get_node(name)
+			n.reset_value = n.edit_value
 
 	if get_node_or_null('MultiMeshinstance'):
 		_on_BenchmarkButton_toggled(false)
@@ -143,8 +154,16 @@ func _on_PointSize_value_changed(value):
 	$Model.point_size = value
 
 func _on_Zoom_value_changed(value):
-	$'%Position3D/Camera'.transform.origin = Vector3(0, 0, value)
+	$'%Camera'.transform.origin = Vector3(0, 0, value)
+	_save_settings()
 
+func _on_CamTilt_value_changed(value):
+	$'%ZoomPlane'.rotation_degrees.x = value
+	_save_settings()
+
+func _on_CamHeight_value_changed(value):
+	$'%Position3D'.transform.origin = Vector3(0, value, 0)
+	_save_settings()
 
 func _on_CheckBox_toggled(button_pressed):
 	$Characters.visible = button_pressed
@@ -228,7 +247,7 @@ func _on_BenchmarkButton_toggled(button_pressed):
 	$BenchmarkPos/Camera.current = button_pressed && !$Bench/Camera2CheckButton.pressed
 	$BenchmarkPos/Camera2.current = button_pressed && $Bench/Camera2CheckButton.pressed
 	$BenchmarkPos/Light.visible = button_pressed
-	$'%Position3D/Camera'.current = !button_pressed
+	$'%Camera'.current = !button_pressed
 	for c in get_children():
 		if c is Spatial:
 			c.visible = !button_pressed

@@ -162,6 +162,7 @@ unique_name_in_owner = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0238543, 0.271873, 0 )
 
 [node name="Camera" type="Camera" parent="Position3D"]
+unique_name_in_owner = true
 transform = Transform( -1, -7.45058e-09, -8.9407e-08, -2.57837e-08, 0.955518, 0.294932, 8.9407e-08, 0.294932, -0.955518, 1.49012e-08, 0.360911, -0.652091 )
 
 [node name="OmniLight2" type="OmniLight" parent="Position3D/Camera"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://addons/MagicaVoxelImporter/VoxelMesh.gd" type="Script" id=2]
@@ -50,6 +50,8 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 0.0, 360.0 ]
 }
+
+[sub_resource type="CubeMesh" id=6]
 
 [node name="Showcase" type="Spatial"]
 script = ExtResource( 1 )
@@ -133,6 +135,243 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -135.0
+
+[node name="Grid" type="GridContainer" parent="Control/Panel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 3.0
+margin_top = -128.0
+margin_right = 561.0
+columns = 3
+
+[node name="Zoom" type="HBoxContainer" parent="Control/Panel/Grid"]
+margin_right = 202.0
+margin_bottom = 40.0
+script = ExtResource( 5 )
+edit_path = NodePath("CamDist")
+
+[node name="Label3" type="Label" parent="Control/Panel/Grid/Zoom"]
+margin_top = 13.0
+margin_right = 54.0
+margin_bottom = 27.0
+text = "CamDist"
+
+[node name="CamDist" type="SpinBox" parent="Control/Panel/Grid/Zoom"]
+unique_name_in_owner = true
+margin_left = 58.0
+margin_right = 158.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+min_value = -10.0
+max_value = 10.0
+step = 0.001
+page = 0.01
+
+[node name="ResetButton" type="Button" parent="Control/Panel/Grid/Zoom"]
+margin_left = 162.0
+margin_right = 182.0
+margin_bottom = 40.0
+text = "X"
+
+[node name="CamTilt" type="HBoxContainer" parent="Control/Panel/Grid"]
+margin_left = 206.0
+margin_right = 382.0
+margin_bottom = 40.0
+script = ExtResource( 5 )
+edit_path = NodePath("CamTilt")
+
+[node name="Label3" type="Label" parent="Control/Panel/Grid/CamTilt"]
+margin_top = 13.0
+margin_right = 48.0
+margin_bottom = 27.0
+text = "CamTilt"
+
+[node name="CamTilt" type="SpinBox" parent="Control/Panel/Grid/CamTilt"]
+unique_name_in_owner = true
+margin_left = 52.0
+margin_right = 152.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+min_value = -90.0
+max_value = 90.0
+step = 0.001
+page = 0.01
+
+[node name="ResetButton" type="Button" parent="Control/Panel/Grid/CamTilt"]
+margin_left = 156.0
+margin_right = 176.0
+margin_bottom = 40.0
+text = "X"
+
+[node name="CamHeight" type="HBoxContainer" parent="Control/Panel/Grid"]
+margin_left = 386.0
+margin_right = 584.0
+margin_bottom = 40.0
+script = ExtResource( 5 )
+edit_path = NodePath("CamHeight")
+
+[node name="Label3" type="Label" parent="Control/Panel/Grid/CamHeight"]
+margin_top = 13.0
+margin_right = 70.0
+margin_bottom = 27.0
+text = "CamHeight"
+
+[node name="CamHeight" type="SpinBox" parent="Control/Panel/Grid/CamHeight"]
+unique_name_in_owner = true
+margin_left = 74.0
+margin_right = 174.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+min_value = -90.0
+max_value = 90.0
+step = 0.001
+page = 0.01
+
+[node name="ResetButton" type="Button" parent="Control/Panel/Grid/CamHeight"]
+margin_left = 178.0
+margin_right = 198.0
+margin_bottom = 40.0
+text = "X"
+
+[node name="Scale" type="HBoxContainer" parent="Control/Panel/Grid"]
+margin_top = 44.0
+margin_right = 202.0
+margin_bottom = 84.0
+script = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="Control/Panel/Grid/Scale"]
+margin_top = 13.0
+margin_right = 33.0
+margin_bottom = 27.0
+text = "Scale"
+
+[node name="Edit" type="SpinBox" parent="Control/Panel/Grid/Scale"]
+margin_left = 37.0
+margin_right = 111.0
+margin_bottom = 40.0
+max_value = 10.0
+step = 0.001
+value = 0.01
+
+[node name="Rotate" type="CheckButton" parent="Control/Panel/Grid"]
+margin_left = 206.0
+margin_top = 44.0
+margin_right = 382.0
+margin_bottom = 84.0
+rect_pivot_offset = Vector2( 138, 64 )
+pressed = true
+text = "Rotate"
+
+[node name="UseTransform" type="CheckButton" parent="Control/Panel/Grid"]
+margin_left = 386.0
+margin_top = 44.0
+margin_right = 584.0
+margin_bottom = 84.0
+pressed = true
+text = "Use Tfm"
+
+[node name="ImportParams" type="Label" parent="Control/Panel/Grid"]
+visible = false
+margin_left = 150.0
+margin_top = 57.0
+margin_right = 383.0
+margin_bottom = 71.0
+custom_colors/font_color = Color( 0.454902, 0.454902, 0.454902, 1 )
+text = "Import Params:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Panel/Grid"]
+margin_top = 88.0
+margin_right = 202.0
+margin_bottom = 120.0
+
+[node name="Fullscreen" type="CheckBox" parent="Control/Panel/Grid/HBoxContainer"]
+margin_right = 94.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 138, 64 )
+text = "Fullscreen"
+
+[node name="Characters" type="CheckBox" parent="Control/Panel/Grid/HBoxContainer"]
+margin_left = 98.0
+margin_right = 202.0
+margin_bottom = 32.0
+text = "Other Chars"
+
+[node name="NormalDebug" type="HBoxContainer" parent="Control/Panel/Grid"]
+margin_left = 206.0
+margin_top = 88.0
+margin_right = 382.0
+margin_bottom = 120.0
+script = ExtResource( 5 )
+
+[node name="Enable" type="CheckBox" parent="Control/Panel/Grid/NormalDebug"]
+margin_right = 100.0
+margin_bottom = 32.0
+text = "Nml Debug"
+
+[node name="Edit" type="HSlider" parent="Control/Panel/Grid/NormalDebug"]
+visible = false
+margin_left = 124.0
+margin_right = 224.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 100, 0 )
+max_value = 1.0
+step = 0.1
+ticks_on_borders = true
+
+[node name="NormalSmoothing" type="HBoxContainer" parent="Control/Panel/Grid"]
+margin_left = 386.0
+margin_top = 88.0
+margin_right = 584.0
+margin_bottom = 120.0
+script = ExtResource( 5 )
+
+[node name="Label2" type="Label" parent="Control/Panel/Grid/NormalSmoothing"]
+margin_top = 9.0
+margin_right = 80.0
+margin_bottom = 23.0
+text = "Nml Smooth"
+
+[node name="Edit" type="SpinBox" parent="Control/Panel/Grid/NormalSmoothing"]
+margin_left = 84.0
+margin_right = 158.0
+margin_bottom = 32.0
+max_value = 10.0
+step = 0.01
+page = 1.0
+value = 1.0
+
+[node name="Button" type="Button" parent="Control/Panel/Grid/NormalSmoothing"]
+margin_left = 162.0
+margin_right = 194.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+rect_clip_content = true
+icon = ExtResource( 6 )
+expand_icon = true
+
+[node name="Curve" type="HBoxContainer" parent="Control/Panel/Grid"]
+visible = false
+margin_top = 132.0
+margin_right = 173.0
+margin_bottom = 156.0
+script = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="Control/Panel/Grid/Curve"]
+margin_top = 5.0
+margin_right = 36.0
+margin_bottom = 19.0
+text = "Curve"
+
+[node name="Edit" type="SpinBox" parent="Control/Panel/Grid/Curve"]
+margin_left = 40.0
+margin_right = 114.0
+margin_bottom = 24.0
+min_value = 0.01
+max_value = 10.0
+step = 0.1
+page = 0.01
+value = 0.01
+exp_edit = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel"]
 anchor_left = 1.0
@@ -241,196 +480,11 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Grid" type="GridContainer" parent="Control/Panel"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 3.0
-margin_top = -128.0
-margin_right = 615.0
-columns = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Scale" type="HBoxContainer" parent="Control/Panel/Grid"]
-margin_right = 188.0
-margin_bottom = 40.0
-script = ExtResource( 5 )
-
-[node name="Label" type="Label" parent="Control/Panel/Grid/Scale"]
-margin_top = 13.0
-margin_right = 33.0
-margin_bottom = 27.0
-text = "Scale"
-
-[node name="Edit" type="SpinBox" parent="Control/Panel/Grid/Scale"]
-margin_left = 37.0
-margin_right = 111.0
-margin_bottom = 40.0
-max_value = 10.0
-step = 0.001
-value = 0.01
-
-[node name="PointSize" type="HBoxContainer" parent="Control/Panel/Grid"]
-margin_left = 192.0
-margin_right = 338.0
-margin_bottom = 40.0
-script = ExtResource( 5 )
-
-[node name="Label2" type="Label" parent="Control/Panel/Grid/PointSize"]
-margin_top = 13.0
-margin_right = 59.0
-margin_bottom = 27.0
-text = "Pont Size"
-
-[node name="Edit" type="SpinBox" parent="Control/Panel/Grid/PointSize"]
-margin_left = 63.0
-margin_right = 137.0
-margin_bottom = 40.0
-min_value = 1.0
-max_value = 30.0
-value = 6.0
-
-[node name="Zoom" type="HBoxContainer" parent="Control/Panel/Grid"]
-margin_left = 342.0
-margin_right = 575.0
-margin_bottom = 40.0
-script = ExtResource( 5 )
-
-[node name="Label3" type="Label" parent="Control/Panel/Grid/Zoom"]
-margin_top = 13.0
-margin_right = 37.0
-margin_bottom = 27.0
-text = "Zoom"
-
-[node name="Edit" type="HSlider" parent="Control/Panel/Grid/Zoom"]
-margin_left = 41.0
-margin_right = 141.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 100, 40 )
-min_value = 0.25
-max_value = 10.0
-step = 0.001
-value = 1.0
-
-[node name="Rotate" type="CheckButton" parent="Control/Panel/Grid"]
-margin_top = 44.0
-margin_right = 188.0
-margin_bottom = 84.0
-rect_pivot_offset = Vector2( 138, 64 )
-pressed = true
-text = "Rotate"
-
-[node name="Fullscreen" type="CheckButton" parent="Control/Panel/Grid"]
-margin_left = 192.0
-margin_top = 44.0
-margin_right = 338.0
-margin_bottom = 84.0
-rect_pivot_offset = Vector2( 138, 64 )
-text = "Fullscreen"
-
-[node name="ImportParams" type="Label" parent="Control/Panel/Grid"]
-margin_left = 342.0
-margin_top = 57.0
-margin_right = 575.0
-margin_bottom = 71.0
-custom_colors/font_color = Color( 0.454902, 0.454902, 0.454902, 1 )
-text = "Import Params:"
-
-[node name="UseTransform" type="CheckButton" parent="Control/Panel/Grid"]
-margin_top = 88.0
-margin_right = 188.0
-margin_bottom = 128.0
-pressed = true
-text = "Use Transform"
-
-[node name="NormalDebug" type="HBoxContainer" parent="Control/Panel/Grid"]
-margin_left = 192.0
-margin_top = 88.0
-margin_right = 338.0
-margin_bottom = 128.0
-script = ExtResource( 5 )
-
-[node name="Enable" type="CheckBox" parent="Control/Panel/Grid/NormalDebug"]
-margin_right = 120.0
-margin_bottom = 40.0
-text = "Normal Debug"
-
-[node name="Edit" type="HSlider" parent="Control/Panel/Grid/NormalDebug"]
-visible = false
-margin_left = 124.0
-margin_right = 224.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 100, 0 )
-max_value = 1.0
-step = 0.1
-ticks_on_borders = true
-
-[node name="NormalSmoothing" type="HBoxContainer" parent="Control/Panel/Grid"]
-margin_left = 342.0
-margin_top = 88.0
-margin_right = 575.0
-margin_bottom = 128.0
-script = ExtResource( 5 )
-
-[node name="Label2" type="Label" parent="Control/Panel/Grid/NormalSmoothing"]
-margin_top = 13.0
-margin_right = 119.0
-margin_bottom = 27.0
-text = "Normal Smoothing"
-
-[node name="Edit" type="SpinBox" parent="Control/Panel/Grid/NormalSmoothing"]
-margin_left = 123.0
-margin_right = 197.0
-margin_bottom = 40.0
-max_value = 10.0
-step = 0.01
-page = 1.0
-
-[node name="Button" type="Button" parent="Control/Panel/Grid/NormalSmoothing"]
-margin_left = 201.0
-margin_right = 233.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 32, 32 )
-rect_clip_content = true
-icon = ExtResource( 6 )
-expand_icon = true
-
-[node name="Characters" type="CheckButton" parent="Control/Panel/Grid"]
-margin_top = 132.0
-margin_right = 188.0
-margin_bottom = 172.0
-text = "Other Characters"
-
-[node name="Curve" type="HBoxContainer" parent="Control/Panel/Grid"]
-visible = false
-margin_top = 132.0
-margin_right = 173.0
-margin_bottom = 156.0
-script = ExtResource( 5 )
-
-[node name="Label" type="Label" parent="Control/Panel/Grid/Curve"]
-margin_top = 5.0
-margin_right = 36.0
-margin_bottom = 19.0
-text = "Curve"
-
-[node name="Edit" type="SpinBox" parent="Control/Panel/Grid/Curve"]
-margin_left = 40.0
-margin_right = 114.0
-margin_bottom = 24.0
-min_value = 0.01
-max_value = 10.0
-step = 0.1
-page = 0.01
-value = 0.01
-exp_edit = true
-
 [node name="Messages" type="TextEdit" parent="Control/Panel"]
 unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 585.0
+margin_left = 595.0
 margin_top = 6.0
 margin_right = -216.0
 margin_bottom = -7.0
@@ -469,13 +523,24 @@ render_target_update_mode = 3
 
 [node name="Position3D" type="Position3D" parent="ViewportContainer/Viewport"]
 unique_name_in_owner = true
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.428024, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.536463, 0 )
 
-[node name="Camera" type="Camera" parent="ViewportContainer/Viewport/Position3D"]
-transform = Transform( 1, 0, 0, 0, 0.992371, 0.123285, 0, -0.123285, 0.992371, 0, 0, 0.581 )
+[node name="ZoomPlane" type="Position3D" parent="ViewportContainer/Viewport/Position3D"]
+unique_name_in_owner = true
+transform = Transform( 1, 0, 0, 0, 0.941923, 0.33583, 0, -0.33583, 0.941923, 0, -0.0385283, 1.36059 )
 
-[node name="OmniLight2" type="OmniLight" parent="ViewportContainer/Viewport/Position3D/Camera"]
-transform = Transform( -1, -2.57837e-08, 8.35339e-08, -5.86198e-14, 0.955519, 0.294931, -8.74226e-08, 0.294931, -0.955519, -0.425491, 0.568197, 0.804565 )
+[node name="Camera" type="Camera" parent="ViewportContainer/Viewport/Position3D/ZoomPlane"]
+unique_name_in_owner = true
+transform = Transform( 1, 0, 0, 0, 0.979621, -0.200856, 0, 0.200856, 0.979621, 0, 0, 0 )
+fov = 28.0
+
+[node name="MeshInstance" type="MeshInstance" parent="ViewportContainer/Viewport/Position3D/ZoomPlane"]
+transform = Transform( 3, 0, 0, 0, 0.0392164, -0.000999915, 0, 2.99974, 1.30721e-05, 0, 0, 1.19209e-07 )
+visible = false
+mesh = SubResource( 6 )
+
+[node name="OmniLight2" type="OmniLight" parent="ViewportContainer/Viewport/Position3D"]
+transform = Transform( -1, -2.57837e-08, 8.35339e-08, -1.0778e-08, 0.98459, 0.17488, -8.67557e-08, 0.17488, -0.98459, -0.425491, 0.663053, 1.30938 )
 light_energy = 3.0
 omni_range = 2.54623
 
@@ -491,6 +556,7 @@ window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.vox; VOX Model" )
+show_hidden_files = true
 script = ExtResource( 7 )
 
 [node name="BgFileDialog" type="FileDialog" parent="."]
@@ -505,6 +571,7 @@ window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.png| PNG Image", "*.jpg | JPG Image", "*.jpeg| JPEG Image", "*.gif | Gif Image", "*.svg | SVG Image" )
+show_hidden_files = true
 script = ExtResource( 7 )
 
 [node name="SaveFileDialog" type="FileDialog" parent="."]
@@ -516,9 +583,24 @@ margin_top = 50.0
 margin_right = -50.0
 margin_bottom = -50.0
 access = 2
+show_hidden_files = true
 script = ExtResource( 7 )
 
 [connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
+[connection signal="value_changed" from="Control/Panel/Grid/Zoom/CamDist" to="." method="_on_Zoom_value_changed"]
+[connection signal="pressed" from="Control/Panel/Grid/Zoom/ResetButton" to="Control/Panel/Grid/Zoom" method="_on_ResetButton_pressed"]
+[connection signal="value_changed" from="Control/Panel/Grid/CamTilt/CamTilt" to="." method="_on_CamTilt_value_changed"]
+[connection signal="pressed" from="Control/Panel/Grid/CamTilt/ResetButton" to="Control/Panel/Grid/CamTilt" method="_on_ResetButton_pressed"]
+[connection signal="value_changed" from="Control/Panel/Grid/CamHeight/CamHeight" to="." method="_on_CamHeight_value_changed"]
+[connection signal="pressed" from="Control/Panel/Grid/CamHeight/ResetButton" to="Control/Panel/Grid/CamHeight" method="_on_ResetButton_pressed"]
+[connection signal="value_changed" from="Control/Panel/Grid/Scale/Edit" to="." method="_on_Scale_value_changed"]
+[connection signal="toggled" from="Control/Panel/Grid/Rotate" to="." method="_on_CheckButton2_toggled"]
+[connection signal="toggled" from="Control/Panel/Grid/UseTransform" to="." method="_on_UseTransform_toggled"]
+[connection signal="toggled" from="Control/Panel/Grid/HBoxContainer/Fullscreen" to="." method="_on_CheckButton_toggled"]
+[connection signal="toggled" from="Control/Panel/Grid/HBoxContainer/Characters" to="." method="_on_CheckBox_toggled"]
+[connection signal="toggled" from="Control/Panel/Grid/NormalDebug/Enable" to="." method="_on_Enable_toggled"]
+[connection signal="value_changed" from="Control/Panel/Grid/NormalDebug/Edit" to="." method="_on_Edit_value_changed"]
+[connection signal="pressed" from="Control/Panel/Grid/NormalSmoothing/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="Control/Panel/VBoxContainer/Button" to="FileDialog" method="_on_Button_pressed"]
 [connection signal="pressed" from="Control/Panel/VBoxContainer/Background" to="BgFileDialog" method="_on_Button_pressed"]
 [connection signal="changed" from="Control/Panel/VBoxContainer/HBoxContainer/CaptureCount" to="." method="_on_Control_changed"]
@@ -527,16 +609,6 @@ script = ExtResource( 7 )
 [connection signal="changed" from="Control/Panel/VBoxContainer/HBoxContainer2/ImageSizeY" to="." method="_on_Control_changed"]
 [connection signal="pressed" from="Control/Panel/VBoxContainer/EncodeVideo" to="." method="_on_Control_changed"]
 [connection signal="pressed" from="Control/Panel/VBoxContainer/Capture360" to="SaveFileDialog" method="_on_Button_pressed"]
-[connection signal="value_changed" from="Control/Panel/Grid/Scale/Edit" to="." method="_on_Scale_value_changed"]
-[connection signal="value_changed" from="Control/Panel/Grid/PointSize/Edit" to="." method="_on_PointSize_value_changed"]
-[connection signal="value_changed" from="Control/Panel/Grid/Zoom/Edit" to="." method="_on_Zoom_value_changed"]
-[connection signal="toggled" from="Control/Panel/Grid/Rotate" to="." method="_on_CheckButton2_toggled"]
-[connection signal="toggled" from="Control/Panel/Grid/Fullscreen" to="." method="_on_CheckButton_toggled"]
-[connection signal="toggled" from="Control/Panel/Grid/UseTransform" to="." method="_on_UseTransform_toggled"]
-[connection signal="toggled" from="Control/Panel/Grid/NormalDebug/Enable" to="." method="_on_Enable_toggled"]
-[connection signal="value_changed" from="Control/Panel/Grid/NormalDebug/Edit" to="." method="_on_Edit_value_changed"]
-[connection signal="pressed" from="Control/Panel/Grid/NormalSmoothing/Button" to="." method="_on_Button_pressed"]
-[connection signal="toggled" from="Control/Panel/Grid/Characters" to="." method="_on_CheckBox_toggled"]
 [connection signal="pressed" from="CloseButton" to="." method="_on_CloseButton_pressed"]
 [connection signal="file_load" from="FileDialog" to="." method="_on_FileDialog_file_load"]
 [connection signal="file_selected" from="FileDialog" to="FileDialog" method="_on_FileDialog_file_selected"]
