@@ -17,7 +17,7 @@
 [ext_resource path="res://magicavoxel-samples/3x3x3.vox" type="ArrayMesh" id=15]
 [ext_resource path="res://magicavoxel-samples/chr_knight.vox" type="ArrayMesh" id=16]
 [ext_resource path="res://magicavoxel-samples/teapot.vox" type="ArrayMesh" id=17]
-[ext_resource path="res://c1_t.vox" type="ArrayMesh" id=18]
+[ext_resource path="res://c1.tscn" type="PackedScene" id=18]
 [ext_resource path="res://gestures/c1_t/Shuffling.dae" type="PackedScene" id=19]
 [ext_resource path="res://circlearrow_wait.svg" type="Texture" id=20]
 
@@ -28,7 +28,7 @@ size = Vector2( 5, 5 )
 ambient_light_color = Color( 0.07, 0.07, 0.07, 1 )
 
 [sub_resource type="Animation" id=3]
-length = 10.0
+length = 60.0
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Position3D:rotation_degrees")
@@ -37,7 +37,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 10 ),
+"times": PoolRealArray( 0, 60 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 360, 0 ) ]
@@ -139,13 +139,8 @@ mesh = ExtResource( 6 )
 script = ExtResource( 3 )
 render_head = true
 
-[node name="MeshInstance5" type="MeshInstance" parent="."]
-transform = Transform( -0.45, 0, -6.79481e-08, 0, 0.45, 0, 6.79481e-08, 0, -0.45, 0.744678, 0.00590316, 0.25 )
-cast_shadow = 0
-mesh = ExtResource( 18 )
-skeleton = NodePath("../Shuffling/Skeleton")
-script = ExtResource( 3 )
-render_head = true
+[node name="C1" parent="." instance=ExtResource( 18 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.675507, 0, 0.449871 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0916136, 1.47898, -1.34932 )

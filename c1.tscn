@@ -1,0 +1,201 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://addons/MagicaVoxelImporter/VoxelMesh.gd" type="Script" id=1]
+[ext_resource path="res://c1_t.vox" type="ArrayMesh" id=2]
+[ext_resource path="res://addons/MagicaVoxelImporter/BoneRig.gd" type="Script" id=3]
+[ext_resource path="res://from_mixamo/Hip Hop Dancing.fbx" type="PackedScene" id=4]
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.201128, 0.0940807, 0.149946 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 0.223459, 0.138271, 0.182723 )
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 0.217489, 0.145374, 0.194377 )
+
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 0.201162, 0.166952, 0.182061 )
+
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 0.13987, 0.173327, 0.409301 )
+
+[sub_resource type="BoxShape" id=9]
+extents = Vector3( 0.080478, 0.120728, 0.0905333 )
+
+[sub_resource type="BoxShape" id=10]
+extents = Vector3( 0.0922255, 0.0931664, 0.222871 )
+
+[sub_resource type="BoxShape" id=11]
+extents = Vector3( 0.0617992, 0.0638543, 0.0935465 )
+
+[sub_resource type="BoxShape" id=12]
+extents = Vector3( 0.150597, 0.100774, 0.055529 )
+
+[sub_resource type="BoxShape" id=13]
+extents = Vector3( 0.0692827, 0.128427, 0.0820581 )
+
+[sub_resource type="BoxShape" id=14]
+extents = Vector3( 0.0344048, 0.16733, 0.154414 )
+
+[sub_resource type="BoxShape" id=15]
+extents = Vector3( 0.0704996, 0.0194327, 0.0495636 )
+
+[sub_resource type="CylinderShape" id=17]
+height = 0.692619
+radius = 0.0779549
+
+[sub_resource type="CylinderShape" id=18]
+height = 0.692619
+radius = 0.390789
+
+[sub_resource type="SpatialMaterial" id=19]
+params_cull_mode = 1
+
+[node name="C1" type="Spatial"]
+
+[node name="VoxChar" type="MeshInstance" parent="."]
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
+cast_shadow = 0
+mesh = ExtResource( 2 )
+skeleton = NodePath("../Hip Hop Dancing/RootNode/Skeleton")
+script = ExtResource( 1 )
+render_head = true
+
+[node name="Rig" type="Area" parent="VoxChar"]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+script = ExtResource( 3 )
+skeleton_path = NodePath("../../Hip Hop Dancing/RootNode/Skeleton")
+mesh_path = NodePath("..")
+area_path = NodePath("")
+
+[node name="mixamorigHips" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.595674, -0.000257015 )
+shape = SubResource( 4 )
+
+[node name="mixamorigSpine" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.677299, 0.00472811 )
+shape = SubResource( 5 )
+
+[node name="mixamorigSpine1" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000838459, 0.842311, -0.00207365 )
+shape = SubResource( 6 )
+
+[node name="mixamorigSpine2" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02411, -0.00196392 )
+shape = SubResource( 7 )
+
+[node name="mixamorigRightUpLeg" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, 0, -6.1196e-07, 0, 1, 0, 6.1196e-07, 0, -1, -0.1573, 0.40822, -0.0028758 )
+shape = SubResource( 8 )
+
+[node name="mixamorigRightLeg" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 5.24537e-07, 0, 1, 0, -5.24537e-07, 0, 1, -0.0933124, 0.214068, 2.98023e-08 )
+shape = SubResource( 9 )
+
+[node name="mixamorigRightFoot" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, 0, -4.37114e-07, 0, 1, 0, 4.37114e-07, 0, -1, -0.122251, 0.00356769, 0.0677986 )
+shape = SubResource( 10 )
+
+[node name="mixamorigLeftFoot" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 5.24537e-07, 0, 1, 0, -5.24537e-07, 0, 1, 0.122251, 0.00356769, 0.0677986 )
+shape = SubResource( 10 )
+
+[node name="mixamorigLeftLeg" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, 0, -6.1196e-07, 0, 1, 0, 6.1196e-07, 0, -1, 0.0933124, 0.214068, 2.98023e-08 )
+shape = SubResource( 9 )
+
+[node name="mixamorigLeftUpLeg" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 6.99383e-07, 0, 1, 0, -6.99383e-07, 0, 1, 0.1573, 0.40822, -0.0028758 )
+shape = SubResource( 8 )
+
+[node name="mixamorigRightShoulder" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, 0, -6.1196e-07, 0, 1, 0, 6.1196e-07, 0, -1, -0.139902, 1.1592, 2.98023e-08 )
+shape = SubResource( 11 )
+
+[node name="mixamorigRightArm" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, -6.1196e-07, 2.67496e-14, 0, -4.37114e-08, -1, 6.1196e-07, -1, 4.37114e-08, -0.315812, 1.11695, -0.0267721 )
+shape = SubResource( 12 )
+
+[node name="mixamorigRightForeArm" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, -6.1196e-07, 2.67496e-14, 0, -4.37114e-08, -1, 6.1196e-07, -1, 4.37114e-08, -0.542502, 1.11715, -0.0216728 )
+shape = SubResource( 12 )
+
+[node name="mixamorigRightHand" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 6.99382e-07, -3.0571e-14, 0, -4.37114e-08, -1, -6.99382e-07, 1, -4.37114e-08, -0.739462, 1.11811, 0 )
+shape = SubResource( 13 )
+
+[node name="mixamorigRightHandIndex1" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 6.99382e-07, -3.0571e-14, 0, -4.37114e-08, -1, -6.99382e-07, 1, -4.37114e-08, -0.781336, 1.1479, 0 )
+shape = SubResource( 14 )
+disabled = true
+
+[node name="mixamorigRightHandIndex2" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 6.99382e-07, -3.0571e-14, 0, -4.37114e-08, -1, -6.99382e-07, 1, -4.37114e-08, -0.809927, 1.08594, 0 )
+shape = SubResource( 14 )
+disabled = true
+
+[node name="mixamorigRightHandIndex3" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 6.99382e-07, -3.0571e-14, 0, -4.37114e-08, -1, -6.99382e-07, 1, -4.37114e-08, -0.837237, 1.14823, 0 )
+shape = SubResource( 14 )
+disabled = true
+
+[node name="mixamorigLeftShoulder" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 6.99383e-07, 0, 1, 0, -6.99383e-07, 0, 1, 0.139902, 1.1592, 2.98023e-08 )
+shape = SubResource( 11 )
+
+[node name="mixamorigLeftForeArm" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 6.99383e-07, -3.0571e-14, 0, -4.37114e-08, -1, -6.99383e-07, 1, -4.37114e-08, 0.542502, 1.11715, -0.0216728 )
+shape = SubResource( 12 )
+
+[node name="mixamorigLeftArm" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 6.99383e-07, -3.0571e-14, 0, -4.37114e-08, -1, -6.99383e-07, 1, -4.37114e-08, 0.315812, 1.11695, -0.0267721 )
+shape = SubResource( 12 )
+
+[node name="mixamorigLeftHand" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, -7.86805e-07, 3.43924e-14, 0, -4.37114e-08, -1, 7.86805e-07, -1, 4.37114e-08, 0.739462, 1.11811, 0 )
+shape = SubResource( 13 )
+
+[node name="mixamorigLeftHandIndex1" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, -7.86805e-07, 3.43924e-14, 0, -4.37114e-08, -1, 7.86805e-07, -1, 4.37114e-08, 0.781336, 1.1479, 0 )
+shape = SubResource( 14 )
+disabled = true
+
+[node name="mixamorigLeftHandIndex2" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, -7.86805e-07, 3.43924e-14, 0, -4.37114e-08, -1, 7.86805e-07, -1, 4.37114e-08, 0.809927, 1.08594, 0 )
+visible = false
+shape = SubResource( 14 )
+disabled = true
+
+[node name="mixamorigLeftHandIndex3" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( -1, -7.86805e-07, 3.43924e-14, 0, -4.37114e-08, -1, 7.86805e-07, -1, 4.37114e-08, 0.837237, 1.14823, 0 )
+shape = SubResource( 14 )
+disabled = true
+
+[node name="mixamorigNeck" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15164, -0.00633931 )
+shape = SubResource( 15 )
+
+[node name="mixamorigHead" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 1.43168e-08, 5.04617e-08, 5.16561e-08, -0.435891, -0.899999, 9.11068e-09, 0.899999, -0.435891, 0, 1.24354, 0.022105 )
+shape = SubResource( 17 )
+
+[node name="mixamorigHead#2" type="CollisionShape" parent="VoxChar/Rig"]
+transform = Transform( 1, 0, 0, 0, -0.101699, -0.994815, 0, 0.994815, -0.101699, 0, 1.61475, -0.000431031 )
+shape = SubResource( 18 )
+
+[node name="Hip Hop Dancing" parent="." instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+
+[node name="unamed" parent="Hip Hop Dancing/RootNode" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2484e-09, 0, -0.0257187 )
+cast_shadow = 3
+material/0 = SubResource( 19 )
+
+[node name="AnimationPlayer" parent="Hip Hop Dancing/RootNode" index="3"]
+autoplay = "mixamo.com"
+
+[editable path="Hip Hop Dancing"]
