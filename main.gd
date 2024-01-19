@@ -94,7 +94,8 @@ func _load_settings():
 	_loading = false
 	if 'files' in json.result:
 		files = json.result.files
-		reload_vox()
+		if get_container():
+			reload_vox()
 
 
 func _on_files_dropped(files: PoolStringArray, screen: int) -> void:
@@ -191,18 +192,20 @@ func _on_FileDialog_file_load(index, path):
 
 func load_vox(path: String):
 	var container = get_container()
-	var smoothing_edit = container.get_node('NormalSmoothing') if container else null
-	var smoothing = smoothing_edit.edit_value if smoothing_edit else 1.0
-	var vi = VoxelImport.new()
-	$Loading.visible = true
-	yield(get_tree(), 'idle_frame')
-	yield(get_tree(), 'idle_frame')
-	yield(get_tree(), 'idle_frame')
-	var mesh = vi.load_vox(path, {bone_map='', smoothing=smoothing})
-	set_show_normals(get_container().get_node('NormalDebug').edit_value, mesh)
-	$Loading.visible = false
-	yield(get_tree(), 'idle_frame')
-	return mesh
+	if container:
+		var smoothing_edit = container.get_node('NormalSmoothing') if container else null
+		var smoothing = smoothing_edit.edit_value if smoothing_edit else 1.0
+		var vi = VoxelImport.new()
+		$Loading.visible = true
+		yield(get_tree(), 'idle_frame')
+		yield(get_tree(), 'idle_frame')
+		yield(get_tree(), 'idle_frame')
+		var mesh = vi.load_vox(path, {bone_map='', smoothing=smoothing})
+		if container:
+			set_show_normals(container.get_node('NormalDebug').edit_value, mesh)
+		$Loading.visible = false
+		yield(get_tree(), 'idle_frame')
+		return mesh
 
 
 func _on_Enable_toggled(button_pressed):
